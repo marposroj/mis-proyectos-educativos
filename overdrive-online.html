@@ -1,0 +1,815 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#080c18">
+<meta name="description" content="Domina siete misiones de física: energía, resortes, fricción, potencia, fotones, antimateria y relatividad. Un videojuego educativo sin dependencias.">
+<title>OVERDRIVE: DE NEWTON A EINSTEIN</title>
+<style>
+:root{--bg:#080c18;--panel:#101827;--panel2:#141e31;--border:#263348;--ink:#eaf4ff;--muted:#93a6bf;--cyan:#49f6de;--blue:#52b7ff;--pink:#e28cff;--orange:#ffc16a;--red:#ff6c87;--accent:var(--cyan);color-scheme:dark}
+*{box-sizing:border-box}[hidden]{display:none!important}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 20% 0%,#122634 0,transparent 46%),radial-gradient(ellipse at 92% 40%,#1d132e 0,transparent 42%),var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-width:320px}body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.13;background-image:linear-gradient(#427e801a 1px,transparent 1px),linear-gradient(90deg,#427e801a 1px,transparent 1px);background-size:56px 56px;z-index:-1}
+button,input,select{font:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.45}button:focus-visible,input:focus-visible,summary:focus-visible,a:focus-visible{outline:3px solid var(--orange);outline-offset:4px}a{color:var(--cyan)}.mono{font-family:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace}.shell{width:min(1440px,100%);margin:auto;padding:24px 32px 22px}.topline,.brand,.utility,.section-label,.stage-top,.stage-bottom,.statline,.param-head,.range-ends,.actions,.feedback-head,.mission-heading,.energy-head,.hud-label{display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{justify-content:flex-start;font-size:12px;font-weight:750;letter-spacing:2px;color:#b1c5d5}.brandmark{width:29px;height:29px;border:1px solid var(--cyan);color:var(--cyan);display:grid;place-items:center;transform:skew(-10deg);font-weight:900;font-size:18px;box-shadow:0 0 24px #49f6de14}.utility{gap:8px}.icon-btn,.small-btn{border:1px solid var(--border);background:#121c2b;color:#c4d5e7;border-radius:7px;padding:8px 12px;min-height:40px;font-size:12px;font-weight:650}.icon-btn:hover,.small-btn:hover{border-color:var(--cyan);color:var(--cyan)}.hero{display:flex;align-items:flex-end;justify-content:space-between;gap:30px;margin:27px 0 25px}.eyebrow{color:var(--cyan);font-size:11px;letter-spacing:2px;font-weight:800;margin:0 0 7px}.hero h1{font-size:clamp(34px,4.4vw,61px);line-height:1;letter-spacing:-2px;margin:0;font-weight:950}.hero h1 .slash{color:var(--cyan)}.subtitle{color:#c3d4e5;font-size:13px;letter-spacing:3.6px;margin:9px 0 0;font-weight:600}.hero-copy{color:var(--muted);font-size:12px;max-width:245px;margin:0 0 2px}.status-dot{display:inline-block;width:6px;height:6px;background:var(--cyan);border-radius:50%;box-shadow:0 0 10px var(--cyan);margin-right:7px}
+.hud{display:grid;grid-template-columns:1.05fr 1fr 1.2fr 1fr;background:linear-gradient(110deg,#111d2b,#131b2d);border:1px solid var(--border);border-radius:10px;margin-bottom:22px;overflow:hidden}.hud-cell{padding:13px 21px;border-right:1px solid var(--border)}.hud-cell:last-child{border:0}.hud-label{color:var(--muted);font-size:10px;letter-spacing:1.5px;font-weight:700;justify-content:flex-start;gap:6px}.hud-value{font-size:25px;font-weight:800;line-height:1.25;margin-top:3px;letter-spacing:-.5px}.hud-value small{color:var(--muted);font-size:12px;font-weight:500;letter-spacing:0}.score-value{color:var(--cyan)}.streak-block{display:flex;align-items:center;gap:11px;margin-top:8px}.streak-block strong{font-size:20px;color:var(--orange)}.fire-meter{display:flex;gap:5px;flex:1;max-width:146px}.fire-meter i{height:8px;flex:1;background:#263043;border-radius:2px;transform:skew(-15deg)}.fire-meter i.lit{background:var(--orange);box-shadow:0 0 9px #ffb75860}.shields{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:21px;line-height:1.3}.shield{color:var(--cyan);filter:drop-shadow(0 0 6px #49f6de33)}.shield.lost{color:#495367;filter:none}.shields small{margin-left:8px;color:var(--muted);font-size:11px}
+.mission-nav{display:grid;grid-template-columns:4fr 3fr;gap:18px;margin-bottom:23px}.section-label{font-size:10px;color:var(--muted);letter-spacing:1.3px;font-weight:750;margin-bottom:9px}.section-label .act{color:var(--cyan)}.quantum .act{color:var(--pink)}.nav-group{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.quantum .nav-group{grid-template-columns:repeat(3,1fr)}.mission-tab{display:flex;align-items:center;justify-content:flex-start;gap:9px;min-height:53px;padding:10px 12px;background:#101928;border:1px solid var(--border);color:#9cadc2;border-radius:7px;text-align:left;font-size:11px;font-weight:650;position:relative}.mission-tab .num{font-size:16px;color:#687c98;line-height:1;font-weight:750}.mission-tab:hover{border-color:#657892;color:#eaf4ff}.mission-tab.active{background:linear-gradient(110deg,#153b3c,#102d31);border-color:var(--cyan);color:#dcfff8;box-shadow:inset 0 -2px 0 var(--cyan),0 0 18px #49f6de0b}.mission-tab.active .num{color:var(--cyan)}.quantum .mission-tab.active{background:linear-gradient(110deg,#322344,#231c36);border-color:var(--pink);color:#f9e5ff;box-shadow:inset 0 -2px 0 var(--pink)}.quantum .mission-tab.active .num{color:var(--pink)}.mission-tab.solved:after{content:"✓";position:absolute;top:2px;right:5px;color:var(--cyan);font-size:10px}
+.workspace{display:grid;grid-template-columns:minmax(0,1.85fr) minmax(305px,1fr);gap:20px;align-items:start}.sim-panel{border:1px solid var(--border);border-radius:11px;background:#0c1524;overflow:hidden;box-shadow:0 15px 60px #0002}.mission-heading{padding:15px 19px;border-bottom:1px solid var(--border);min-height:65px}.mission-heading h2{font-size:15px;margin:0;font-weight:750;letter-spacing:.1px}.mission-heading .mission-no{color:var(--accent);font-size:11px;margin-right:8px}.live-tag{font-size:9px;letter-spacing:1.1px;color:var(--cyan);border:1px solid #285957;background:#11332e;padding:4px 7px;border-radius:4px;white-space:nowrap}.scene{position:relative;background:#091323;isolation:isolate;aspect-ratio:16/10}.scene canvas{width:100%;height:100%;display:block;touch-action:pan-y}.stage-top{position:absolute;top:15px;left:17px;right:17px;pointer-events:none;align-items:flex-start}.scene-state{font-size:9px;letter-spacing:1.5px;color:#9cb5ce;background:#0a1420d9;border:1px solid #26394a;padding:5px 8px;border-radius:4px}.scene-state.running{color:var(--cyan);border-color:#367d6c}.scene-state.win{color:var(--cyan)}.scene-state.fail{color:var(--red)}.scene-tag{font-size:9px;color:#65899e;letter-spacing:1px}.stage-bottom{position:absolute;bottom:13px;left:17px;right:17px;color:#86a7bc;font-size:10px;pointer-events:none}.stage-bottom strong{color:#dcecf6;font-weight:600}.playback{display:flex;align-items:center;gap:4px;pointer-events:auto}.playback button{color:#92b0c5;min-width:36px;min-height:30px;font-size:10px;border:1px solid #2a4255;background:#0d2032;border-radius:4px}.playback button.active{color:var(--cyan);border-color:#437466}.pause-btn{margin-right:4px}.energy-deck{padding:17px 19px 18px;border-top:1px solid var(--border);background:linear-gradient(110deg,#121f30,#111a2b)}.energy-head{font-size:9px;color:#97a8bf;letter-spacing:1.4px;margin-bottom:13px}.energy-head span:last-child{color:#71859d;font-size:9px;letter-spacing:0}.energy-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px 22px}.energy-label{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:10px;color:#afc3d6;margin-bottom:5px}.energy-label strong{font-size:11px;color:var(--bar-color);font-family:ui-monospace,Consolas,monospace;font-weight:600;white-space:nowrap}.bar{height:6px;background:#273044;border-radius:2px;overflow:hidden}.bar-fill{width:0%;height:100%;background:var(--bar-color);box-shadow:0 0 9px var(--bar-color);transition:width .12s linear}.telemetry{padding:12px 19px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:5px 10px;color:#758ba2;font-size:10px;border-top:1px solid var(--border)}.telemetry span:last-child{color:#acbfd2;text-align:right}.feedback{margin-top:17px;border:1px solid var(--border);border-radius:10px;background:#101a2b;padding:18px 20px;position:relative;overflow:hidden}.feedback.ready{border-left:3px solid #36546b}.feedback.win{border-color:#306452;border-left:3px solid var(--cyan);background:linear-gradient(115deg,#102c2b,#101b2b)}.feedback.fail{border-color:#613448;border-left:3px solid var(--red);background:linear-gradient(115deg,#251723,#101b2b)}.feedback-head{align-items:flex-start}.feedback h3{font-size:13px;margin:0 0 5px;letter-spacing:.5px;color:#e1edfa}.feedback.win h3{color:var(--cyan)}.feedback.fail h3{color:var(--red)}.feedback p{font-size:12px;color:#adbed1;margin:4px 0;line-height:1.65}.feedback-points{font-weight:900;font-size:22px;color:var(--cyan);white-space:nowrap}.step-list{list-style:none;margin:11px 0 0;padding:0;counter-reset:step}.step-list li{counter-increment:step;display:flex;gap:9px;align-items:flex-start;padding:5px 0;color:#c2d6e5;font-size:12px}.step-list li:before{content:counter(step,decimal-leading-zero);color:#49f6de9c;font:10px/1.9 ui-monospace,Consolas,monospace}.next-btn{margin-top:13px;border:1px solid #3b7664;color:var(--cyan);background:#183c35;border-radius:6px;padding:9px 15px;font-size:12px;font-weight:750;min-height:40px}.feedback .hint-formula{color:var(--orange);font-family:ui-monospace,Consolas,monospace}.wait-steps{display:flex;gap:8px;color:#98aec6;font-size:11px;margin-top:13px}.wait-steps span{padding:4px 8px;border:1px solid #2b3d52;border-radius:4px}
+.console{background:linear-gradient(140deg,#152033,#101726);border:1px solid var(--border);border-radius:11px;overflow:hidden}.console-top{padding:17px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}.console-top strong{font-size:10px;letter-spacing:1.8px;color:#a6bdd0}.challenge-code{font-size:10px;color:var(--accent);letter-spacing:.8px}.console-body{padding:19px 20px 20px}.objective-title{font-size:11px;color:var(--accent);font-weight:750;letter-spacing:.8px;margin:0 0 6px}.objective{font-size:15px;line-height:1.5;font-weight:650;margin:0 0 13px;min-height:45px}.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:16px}.fact{background:#0c1525;border:1px solid #253248;border-radius:6px;padding:8px 9px}.fact small{display:block;color:#8ca2ba;font-size:9px;line-height:1.2;margin-bottom:3px}.fact strong{font-size:13px;color:#e0edfa;font-family:ui-monospace,Consolas,monospace;font-weight:550}.fact.target strong{color:var(--orange)}.formula-card{padding:12px 13px;border:1px solid #364453;border-left:2px solid var(--accent);border-radius:5px;background:#121e2d;margin-bottom:20px}.formula-card small{display:block;color:#6f8ba0;font-size:9px;letter-spacing:1.5px;margin-bottom:5px}.formula{font:16px/1.5 ui-monospace,Consolas,monospace;color:#d3e7f3;word-break:break-word}.formula sub{font-size:10px}.formula-note{font-size:10px;color:#8da6bb;margin:6px 0 0}.param-head{margin-bottom:12px;align-items:flex-end}.param-head label{font-size:12px;font-weight:650;color:#b8cddd}.param-num{display:flex;align-items:center;gap:5px;flex-shrink:0}.param-num input{width:92px;border:1px solid #3d5b69;border-radius:5px;color:var(--accent);background:#071522;font:19px/1.3 ui-monospace,Consolas,monospace;text-align:right;padding:7px 8px;min-height:43px}.param-unit{color:#8db0c3;font-size:11px;max-width:32px}.slider{appearance:none;-webkit-appearance:none;width:100%;height:6px;border-radius:3px;background:linear-gradient(90deg,var(--accent) var(--fill,0%),#293c50 var(--fill,0%));outline:none;margin:8px 0 9px;cursor:pointer;touch-action:pan-y}.slider::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;width:19px;height:19px;background:var(--accent);border:4px solid #0c2930;border-radius:50%;box-shadow:0 0 13px #49f6de35;cursor:grab}.slider::-moz-range-thumb{width:14px;height:14px;background:var(--accent);border:3px solid #0c2930;border-radius:50%;cursor:grab}.range-ends{font-size:9px;color:#7a92aa}.param-note{font-size:10px;color:#829db3;min-height:17px;margin:7px 0 17px}.unit-choices{display:flex;gap:6px;margin:-6px 0 14px}.unit-choices button{flex:1;padding:7px;border-radius:5px;border:1px solid #334356;background:#101c2d;color:#91a8be;font-size:11px}.unit-choices button.active{color:var(--accent);border-color:var(--accent);background:#173435}.spectrum{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-bottom:12px}.spectrum button{border:1px solid #344155;border-top:3px solid var(--laser);background:#0e182a;border-radius:6px;padding:9px 2px;color:#acbdd1;font-size:9px;min-height:58px}.spectrum button strong{display:block;color:var(--laser);font:12px/1.4 ui-monospace,Consolas,monospace;margin-top:3px}.spectrum button.active{background:#203045;border-color:var(--laser);box-shadow:0 0 13px color-mix(in srgb,var(--laser) 14%,transparent)}.spectrum-note{color:#96b0c5;font-size:10px;margin:0 0 16px}.calc-box{margin-top:19px;background:#0d1627;border:1px solid #2a394f;border-radius:6px;padding:12px}.calc-label{font-size:10px;color:#c5d6e9;display:flex;justify-content:space-between;gap:5px;font-weight:650}.calc-badge{color:var(--orange);white-space:nowrap}.calc-box input{width:100%;border:0;border-bottom:1px solid #3a4a62;background:transparent;font:13px/1.5 ui-monospace,Consolas,monospace;color:#e2edf7;padding:9px 0;margin:4px 0 6px;border-radius:0}.calc-box input::placeholder{color:#627990;font-size:10px}.calc-box p{font-size:9px;color:#8199b0;margin:0;line-height:1.55}.execute{width:100%;background:var(--accent);color:#082629;border:1px solid var(--accent);border-radius:6px;margin-top:17px;min-height:49px;padding:13px 9px;font-size:11px;letter-spacing:1px;font-weight:900;box-shadow:0 0 24px #49f6de14;transition:transform .1s,filter .15s}.execute:hover{filter:brightness(1.13);box-shadow:0 0 25px #49f6de28}.execute:active{transform:translateY(1px)}.generate{width:100%;background:transparent;border:1px solid #3d4b62;color:#a9bdd2;border-radius:6px;min-height:41px;padding:10px;font-size:11px;margin-top:8px}.generate:hover{border-color:var(--accent);color:var(--accent)}.console-footer{border-top:1px solid var(--border);padding:12px 20px;color:#8097b0;font-size:9px;line-height:1.6;background:#0c1525}.console-footer span{color:var(--orange)}.field-error{font-size:11px;color:var(--red);margin:10px 0 0;min-height:0}.field-error:empty{display:none}.note-box{margin-top:17px;border:1px dashed #2d3c52;border-radius:7px;padding:13px 16px;color:#8fa6bd;font-size:10px;line-height:1.6}.note-box strong{color:#b7cede}
+.bottomline{display:flex;justify-content:space-between;align-items:center;gap:16px;border-top:1px solid #223044;margin-top:25px;padding-top:15px;font-size:10px;color:#758aa1}.bottomline span{color:#a1b2c6}.bottomline button{background:none;border:0;color:#91a8bd;font-size:10px;text-decoration:underline;padding:6px;min-height:32px}.drawer{border:1px solid var(--border);border-radius:8px;background:#0e1725;color:#a5bbcc;margin-top:20px;padding:12px 17px;font-size:11px}.drawer summary{cursor:pointer;font-size:11px;color:#bacee1;font-weight:650;min-height:24px}.drawer p{margin:9px 0;line-height:1.7}.drawer a{color:#9dbbeb}.modal-backdrop{position:fixed;inset:0;background:#030912dd;backdrop-filter:blur(8px);z-index:50;display:grid;place-items:center;padding:22px;overflow:auto}.modal-backdrop[hidden]{display:none}.modal{width:min(540px,100%);background:radial-gradient(ellipse at top,#1b3843,#101929 63%);border:1px solid #3e646b;border-radius:14px;padding:28px;box-shadow:0 0 80px #49f6de0f}.modal h2{font-size:23px;margin:0 0 12px;letter-spacing:-.4px}.modal p,.modal li{font-size:13px;color:#aec3d6;line-height:1.7}.modal ul{padding-left:20px}.modal button{margin-top:14px;width:100%;min-height:43px;background:var(--cyan);border:0;border-radius:6px;color:#07272a;font-weight:800}.modal .secondary{background:none;border:1px solid #3c5368;color:#b5cde0;margin-top:8px}.modal .trophy{font-size:46px;color:var(--orange);margin-bottom:8px}.modal code{font-size:12px;color:var(--orange)}.critical-flash{animation:critical-glow 1.4s ease-out}.score-pop{animation:pop .7s ease-out}@keyframes critical-glow{0%{box-shadow:0 0 0 2px #ffc16a,0 0 85px #ffc16a66}100%{box-shadow:none}}@keyframes pop{0%{transform:scale(1.2);color:var(--orange)}100%{transform:scale(1)}}.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media(min-width:1500px){.shell{padding-top:30px}.scene{aspect-ratio:16/9}}
+@media(max-width:1100px){.shell{padding:20px}.workspace{grid-template-columns:minmax(0,1.55fr) minmax(300px,1fr);gap:15px}.mission-tab{padding:9px 8px;gap:6px;font-size:10px}.console-body{padding:17px}.hud-cell{padding:12px 16px}.hero-copy{max-width:210px}.scene{aspect-ratio:4/3}}
+@media(max-width:820px){.workspace{grid-template-columns:1fr}.scene{aspect-ratio:16/9}.console-body{display:grid;grid-template-columns:1fr 1fr;column-gap:24px;padding:19px}.brief{grid-column:1}.controls{grid-column:2;grid-row:1}.objective{min-height:0}.console-footer{font-size:10px}.hero-copy{display:none}.mission-nav{gap:10px}.mission-tab{flex-direction:column;align-items:flex-start;gap:5px;font-size:10px}.mission-tab .num{font-size:14px}.hud-value{font-size:22px}.shields{gap:5px}.hud-cell{padding:12px}.feedback{margin-bottom:0}.note-box{margin-top:14px}}
+@media(max-width:560px){.shell{padding:16px 12px}.brand{font-size:9px;letter-spacing:1.2px;gap:8px}.brandmark{width:25px;height:25px}.brand-tail{display:none}.utility{gap:5px}.icon-btn{font-size:11px;padding:7px 9px;min-height:36px}.download-btn{display:none}.hero{margin:22px 0 19px}.hero h1{font-size:43px;letter-spacing:-1.8px}.subtitle{font-size:10px;letter-spacing:2.8px}.eyebrow{font-size:9px}.hud{grid-template-columns:1fr 1fr;margin-bottom:18px}.hud-cell:nth-child(2){border-right:0}.hud-cell:nth-child(-n+2){border-bottom:1px solid var(--border)}.hud-cell{padding:10px 14px}.hud-label{font-size:9px}.hud-value{font-size:22px}.shields{font-size:21px;margin-top:4px}.fire-meter{max-width:112px}.streak-block{margin-top:5px}.mission-nav{grid-template-columns:1fr;gap:12px;margin-bottom:17px}.nav-group,.quantum .nav-group{gap:6px}.mission-tab{flex-direction:row;align-items:center;padding:8px 6px;min-height:47px;font-size:9px;gap:6px}.mission-tab .num{font-size:14px}.section-label{font-size:9px;margin-bottom:6px}.mission-heading{padding:12px 13px;min-height:58px}.mission-heading h2{font-size:12px}.live-tag{font-size:8px}.scene{aspect-ratio:4/3}.stage-top{top:10px;left:11px;right:11px}.scene-tag{font-size:8px}.stage-bottom{bottom:10px;left:11px;right:11px;font-size:9px}.playback{gap:3px}.playback button{min-width:30px;min-height:32px}.energy-deck{padding:14px}.energy-head{font-size:8px;letter-spacing:1px}.energy-head span:last-child{font-size:8px}.energy-grid{gap:13px 16px}.energy-label{font-size:9px}.energy-label strong{font-size:10px}.telemetry{padding:11px 13px;font-size:9px}.console-body{display:block;padding:17px}.formula-card{margin-bottom:18px}.objective{font-size:16px}.facts{gap:8px}.fact small{font-size:10px}.fact strong{font-size:14px}.param-head label{font-size:13px}.param-num input{width:105px;min-height:44px}.calc-label{font-size:11px}.calc-box p{font-size:10px}.execute{font-size:11px;min-height:52px}.generate{min-height:43px;font-size:12px}.feedback{padding:16px 15px}.feedback h3{font-size:12px}.feedback-points{font-size:20px}.bottomline{align-items:flex-start;font-size:9px}.bottomline .offline{display:none}.drawer{font-size:10px}.modal{padding:23px}.modal h2{font-size:21px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+
+/* Aula segura: modo local; el servidor institucional es necesario para evaluaciones oficiales. */
+[hidden] {display:none!important}
+.classroom-gate{min-height:100vh;background:radial-gradient(circle at 20% 10%,#153d53,transparent 45%),#070d19;color:#e9f5fb;display:grid;place-items:center;padding:20px;font-family:system-ui,sans-serif}
+.classroom-card{width:min(720px,100%);padding:clamp(20px,4vw,42px);border:1px solid #315671;border-radius:20px;background:#101e30;box-shadow:0 22px 100px #0009}
+.classroom-card h1{font-size:clamp(25px,4vw,38px);line-height:1.12;color:#e9fcff;margin:8px 0}
+.classroom-card p{color:#aec4d5;line-height:1.5;margin:10px 0 20px}
+.classroom-card label,.classroom-bar label{display:block;font-size:12px;color:#bfeaf2;margin:11px 0 5px}
+.classroom-card input,.classroom-card select,.classroom-bar input,.classroom-bar select{width:100%;border:1px solid #477089;border-radius:8px;background:#0a1421;color:#fff;padding:11px;font-size:15px;min-height:40px}
+.classroom-card .cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.classroom-card button,.classroom-bar button{border:1px solid #51e4d0;background:#123a46;color:#dbfff8;padding:10px 15px;border-radius:8px;cursor:pointer;min-height:41px;font-weight:700}
+.classroom-card button:hover,.classroom-bar button:hover{background:#1a5967}
+.classroom-card .alt{background:transparent;border-color:#537184;color:#c6dcea}
+.classroom-card .notice{font-size:13px;color:#f9c880;min-height:20px;margin-top:14px;white-space:pre-wrap}
+.classroom-bar{background:#0f1e2c;border:1px solid #2c5c72;border-radius:12px;padding:12px 15px;margin:8px 0 15px;color:#defaf8;font:12px system-ui,sans-serif}
+.classroom-bar .bar-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.classroom-bar .bar-row{display:flex;align-items:center;flex-wrap:wrap;gap:7px;margin:9px 0}
+.classroom-bar strong{color:#62f5dd;font-size:14px}
+.classroom-bar button{padding:6px 11px;min-height:34px;font-size:12px}
+.classroom-bar .bar-muted{color:#a7c3d7}
+.classroom-bar .grades{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;font-size:12px}
+.classroom-bar .grades span{background:#1d3447;padding:7px 10px;border-radius:6px}
+.classroom-admin{border-top:1px solid #31566c;margin-top:12px;padding-top:12px}
+.classroom-admin .input-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;align-items:end}
+.classroom-lock{color:#ffd3a2!important}
+@media(max-width:580px){.classroom-card .cols,.classroom-admin .input-row{grid-template-columns:1fr}.classroom-bar .bar-top{align-items:flex-start}}
+
+</style>
+</head>
+<body>
+
+<section id="classroomGate" class="classroom-gate" aria-labelledby="gateTitle">
+ <div class="classroom-card">
+  <div style="color:#63f7df;letter-spacing:3px;font-size:12px">CEBA / LABORATORIO DE FÍSICA</div>
+  <h1 id="gateTitle">OVERDRIVE <span style="color:#66f5df">· Aula</span></h1>
+  <p>Acceso de estudiantes y administrador. <strong>Modo conectado:</strong> inicia sesión para guardar tu progreso y controlar los intentos en el servidor.</p>
+  <p><a href="/cuenta/" style="color:#63f7df">Iniciar sesión o crear cuenta →</a></p>
+  <p>Si tu sesión ya está abierta, el aula se cargará automáticamente.</p>
+  <div id="gateMessage" class="notice" role="status"></div>
+ </div>
+</section>
+
+<main class="shell" id="gameMain" hidden>
+<section class="classroom-bar" aria-label="Panel del aula" id="classroomBar">
+<div class="bar-top"><strong id="classroomWho">AULA</strong><div><button id="classPrev" type="button" aria-label="Misión anterior">← Anterior</button> <button id="classNext" type="button" aria-label="Misión siguiente">Siguiente →</button> <button id="classLogout" type="button">Salir</button></div></div>
+<div class="grades" id="classGrades"></div><p class="bar-muted" id="classStatus"></p>
+<div id="classAdmin" class="classroom-admin" hidden><strong>Herramientas docentes del servidor</strong><div class="input-row"><div><label for="classStart">Inicio permitido</label><input id="classStart" type="datetime-local" /></div><div><label for="classEnd">Cierre permitido</label><input id="classEnd" type="datetime-local" /></div><div><button id="classSaveSchedule" type="button">Guardar cronograma</button></div></div><div class="bar-row"><button id="classCsv" type="button">Exportar calificaciones CSV</button><button id="classResetStudent" type="button">Reiniciar prueba del administrador</button></div><p class="bar-muted">Calificaciones y cronograma se guardan en PostgreSQL. Consulta Administración para sincronizar Google Sheets y configurar el correo.</p></div>
+</section>
+  <header>
+    <div class="topline"><div class="brand"><span class="brandmark" aria-hidden="true">ϟ</span> ORBITAL LAB <span class="brand-tail"><span style="color:#4a677d">/</span> PHYSICS ARCADE</span></div><div class="utility"><button class="icon-btn" id="soundBtn" aria-pressed="false" title="Activar sonido sintetizado">SONIDO OFF</button><button class="icon-btn" id="helpBtn" aria-haspopup="dialog">¿CÓMO JUGAR?</button><button class="small-btn download-btn" id="downloadBtn">↓ HTML</button></div></div>
+    <div class="hero"><div><p class="eyebrow">SIETE MISIONES. UN UNIVERSO POR DOMINAR.</p><h1>OVERDRIVE<span class="slash">/</span></h1><p class="subtitle">DE NEWTON A EINSTEIN</p></div><p class="hero-copy"><span class="status-dot"></span>SISTEMA EN LÍNEA<br>Calcula. Ajusta. Lanza.<br>La física decide si sobrevives.</p></div>
+    <div class="hud" aria-label="Estado de la partida">
+      <div class="hud-cell"><div class="hud-label">PUNTAJE TOTAL</div><div class="hud-value score-value mono" id="score">000000</div></div>
+      <div class="hud-cell"><div class="hud-label">MISIONES DOMINADAS</div><div class="hud-value mono"><span id="completeCount">0</span><small> / 7</small></div></div>
+      <div class="hud-cell"><div class="hud-label">RACHA DE FUEGO</div><div class="streak-block"><strong class="mono" id="streak">0</strong><div class="fire-meter" id="fireMeter" aria-label="Racha 0"><i></i><i></i><i></i><i></i><i></i></div></div></div>
+      <div class="hud-cell"><div class="hud-label">ESCUDO DE MISIÓN</div><div class="shields" id="shields" aria-label="3 intentos disponibles"></div></div>
+    </div>
+    <nav class="mission-nav" aria-label="Elegir misión">
+      <div><div class="section-label"><span class="act">ACTO I / NEWTON</span><span>DOMINIO CLÁSICO</span></div><div class="nav-group" id="classicalNav"></div></div>
+      <div class="quantum"><div class="section-label"><span class="act">ACTO II / EINSTEIN</span><span>JEFES FINALES</span></div><div class="nav-group" id="quantumNav"></div></div>
+    </nav>
+  </header>
+  <div class="workspace">
+    <section class="simulation-column" aria-label="Pista y simulación">
+      <div class="sim-panel" id="simPanel">
+        <div class="mission-heading"><h2><span class="mission-no mono" id="missionNo">01</span><span id="missionTitle">PORTAL DE INERCIA</span></h2><span class="live-tag">SIMULACIÓN EN VIVO</span></div>
+        <div class="scene" id="scene">
+          <canvas id="canvas" role="img" aria-label="Simulación de la cápsula. Los valores de la simulación aparecen debajo de la pista."></canvas>
+          <div class="stage-top"><span class="scene-state" id="sceneState">● EN ESPERA</span><span class="scene-tag mono" id="sceneTag">G = 10 m/s²</span></div>
+          <div class="stage-bottom"><span class="mono">t <strong id="physicalTime">0.00 s</strong></span><div class="playback" aria-label="Velocidad de reproducción"><button id="pauseBtn" class="pause-btn" disabled aria-label="Pausar simulación">Ⅱ</button><button data-speed="0.5">½×</button><button data-speed="1" class="active">1×</button><button data-speed="2">2×</button></div></div>
+        </div>
+        <div class="energy-deck"><div class="energy-head"><span>BARRAS DE ENERGÍA / TIEMPO REAL</span><span id="energyUnit">JOULES · J</span></div><div class="energy-grid" id="energyGrid"></div></div>
+        <div class="telemetry"><span id="telemetryLabel">REFERENCIA: BASE DE LA RAMPA</span><span class="mono" id="telemetryValue">ALTURA 18 m · EN ESPERA</span></div>
+      </div>
+      <section class="feedback ready" id="feedback" aria-live="polite" aria-atomic="true"></section>
+    </section>
+    <aside>
+      <section class="console" aria-label="Consola de misión">
+        <div class="console-top"><strong>CONSOLA DE MISIÓN</strong><span class="challenge-code mono" id="challengeCode"></span></div>
+        <form id="launchForm" novalidate>
+          <div class="console-body"><div class="brief"><p class="objective-title" id="objectiveTitle">OBJETIVO / ABRIR EL PORTAL</p><p class="objective" id="objective"></p><div class="facts" id="facts"></div><div class="formula-card"><small>LEY FÍSICA</small><div class="formula" id="formula"></div><p class="formula-note" id="formulaNote"></p></div></div>
+            <div class="controls">
+              <div id="spectrumSection" hidden><div class="spectrum" id="spectrum" role="group" aria-label="Elegir fotón"></div><p class="spectrum-note mono" id="spectrumNote"></p></div>
+              <div class="param-head"><label for="paramNumber" id="paramLabel">Altura inicial</label><div class="param-num"><input id="paramNumber" type="number" inputmode="decimal" autocomplete="off" aria-describedby="paramNote fieldError"><span class="param-unit mono" id="paramUnit">m</span></div></div>
+              <input class="slider" id="paramSlider" type="range" aria-label="Ajustar parámetro físico">
+              <div class="range-ends mono"><span id="rangeMin"></span><span id="rangeMax"></span></div>
+              <p class="param-note" id="paramNote"></p>
+              <div class="unit-choices" id="massUnits" hidden><button type="button" data-unit="g">Gramos (g)</button><button type="button" data-unit="mg">Miligramos (mg)</button></div>
+              <div class="calc-box"><label class="calc-label" for="calculation"><span>BITÁCORA DE CÁLCULO</span><span class="calc-badge">BONO ×3</span></label><input id="calculation" type="text" maxlength="180" spellcheck="false" autocomplete="off" placeholder="Tu operación con números: + - * / ^ sqrt()" aria-describedby="calcHelp"><p id="calcHelp">Escribe el cálculo antes del primer lanzamiento. Un ajuste exacto y una operación correcta activan el bono crítico.</p></div>
+              <p class="field-error" id="fieldError" role="alert"></p>
+              <button class="execute" id="launchBtn" type="submit">ϟ ¡EJECUTAR LANZAMIENTO!</button>
+              <button class="generate" id="generateBtn" type="button">↻ Generar Nuevo Reto</button>
+            </div>
+          </div>
+        </form>
+        <div class="console-footer"><span>VARIABLES DINÁMICAS / ANTI-COPIA</span><br>Un caso distinto en cada reto. 3 intentos. El lanzamiento consume un intento si falla.</div>
+      </section>
+      <div class="note-box" id="scienceNote"></div>
+    </aside>
+  </div>
+  <details class="drawer"><summary>Manual de vuelo, modelos físicos y fuentes</summary><p><strong>Calcula antes de lanzar.</strong> Ajusta el parámetro con el deslizador o escribe el valor exacto. Usa la bitácora para obtener puntos triples: la operación debe producir el parámetro que ajustaste, ser correcta y acompañar tu primer lanzamiento exitoso. Puedes usar paréntesis, potencias con ^, sqrt(), multiplicación *, división / y coma o punto decimal. Las misiones están disponibles en cualquier orden.</p><p>El escudo pierde una carga con cada fallo; la racha se reinicia. Al agotar las 3 cargas, genera un reto distinto. Cada reto solo concede puntos una vez. Cambiar de misión conserva los retos de esta sesión. El puntaje y las misiones dominadas se guardan en este navegador cuando el almacenamiento está disponible. La bitácora verifica la operación escrita; no identifica cómo se obtuvo un cálculo fuera del juego.</p><p>Se usan modelos ideales: g = 10 m/s²; c = 3 × 10⁸ m/s; sin pérdidas excepto el rozamiento de la misión 3. La pista y el tiempo de reproducción tienen escala visual variable; el reloj muestra tiempo físico. En el efecto fotoeléctrico se representa absorción de un fotón por electrón y una respuesta ideal del metal, sin procesos multifotónicos. En el reactor, m es la masa total convertida, incluyendo materia y antimateria. La misión final calcula energía cinética en un marco local de relatividad especial; el agujero negro es el escenario visual y no un cálculo de escape gravitacional.</p><p>Fundamentos: <a href="https://openstax.org/books/university-physics-volume-1/pages/8-introduction" target="_blank" rel="noopener noreferrer">OpenStax · Energía potencial y conservación</a> · <a href="https://openstax.org/books/university-physics-volume-3/pages/6-2-photoelectric-effect" target="_blank" rel="noopener noreferrer">OpenStax · Efecto fotoeléctrico</a> · <a href="https://openstax.org/books/university-physics-volume-3/pages/5-9-relativistic-energy" target="_blank" rel="noopener noreferrer">OpenStax · Energía relativista</a> · <a href="https://www.nobelprize.org/prizes/physics/1921/einstein/facts/" target="_blank" rel="noopener noreferrer">Nobel de Física 1921 · Einstein</a>.</p></details>
+  <footer class="bottomline"><div>OVERDRIVE / <span>LABORATORIO DE FÍSICA EDUCATIVA</span><br>Preparado para Mario Posso Rojas · <span>g = 10 m/s² · c = 3 × 10⁸ m/s</span></div><div class="offline">UN ARCHIVO. SIN DEPENDENCIAS. JUEGO SIN CONEXIÓN.</div><button id="resetBtn">Reiniciar progreso</button></footer>
+</main>
+<div class="modal-backdrop" id="modalBackdrop" hidden><section class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" tabindex="-1"></section></div>
+<script>
+'use strict';
+(() => {
+const $ = id => document.getElementById(id);
+const G=10,C=3e8,C2=9e16,H_EV=4.135667696e-15,STORE_KEY='overdrive-classroom-v2';
+const COLORS={cyan:'#49f6de',blue:'#52b7ff',pink:'#e28cff',orange:'#ffc16a',red:'#ff6c87'};
+const photons=[
+  {name:'Infrarrojo',short:'IR',energy:0.8,color:'#ff8870'},
+  {name:'Rojo',short:'ROJO',energy:1.8,color:'#ff5274'},
+  {name:'Verde',short:'VERDE',energy:2.4,color:'#5cff97'},
+  {name:'Azul',short:'AZUL',energy:2.8,color:'#63acff'},
+  {name:'Ultravioleta',short:'UV',energy:4,color:'#c88aff'}
+];
+const definitions=[
+ {title:'PORTAL DE INERCIA',nav:'Energía',objectiveTitle:'OBJETIVO / ABRIR EL PORTAL',formula:'mgh = ½mv²',note:'Sin fricción. La masa se cancela al despejar h.',parameter:'Altura inicial',unit:'m',min:0,max:210,step:1,base:250},
+ {title:'CAÑÓN ELÁSTICO',nav:'Resorte',objectiveTitle:'OBJETIVO / ALCANZAR LA PLATAFORMA',formula:'½kx² = mgh',note:'Resorte ideal. Compresión x en metros.',parameter:'Compresión del resorte',unit:'m',min:0,max:6,step:.1,base:300},
+ {title:'ZONA DE FRICCIÓN',nav:'Fricción',objectiveTitle:'OBJETIVO / FRENAR CON PRECISIÓN',formula:'E<sub>i</sub> − f<sub>r</sub>d = E<sub>f</sub>',note:'Rozamiento constante en un tramo horizontal de 10 m.',parameter:'Fuerza de fricción',unit:'N',min:0,max:400,step:1,base:350},
+ {title:'NÚCLEO CONTRARRELOJ',nav:'Potencia',objectiveTitle:'OBJETIVO / ELEVAR ANTES DEL COLAPSO',formula:'P = W/t = mgh/t',note:'Motor de potencia constante. No hay pérdidas.',parameter:'Potencia del motor',unit:'W',min:0,max:3000,step:1,base:400},
+ {title:'COMPUERTA FOTOELÉCTRICA',nav:'Fotones',objectiveTitle:'JEFE / EL UMBRAL DE EINSTEIN',formula:'E<sub>c,máx</sub> = E<sub>fotón</sub> − Φ',note:'Energía por fotón: E = hν. Se mide en eV.',parameter:'Intensidad del láser',unit:'%',min:0,max:100,step:1,base:450},
+ {title:'REACTOR DE ANTIMATERIA',nav:'Reactor',objectiveTitle:'JEFE / ABRIR EL AGUJERO DE GUSANO',formula:'E = mc²',note:'c² = 9 × 10¹⁶ m²/s²; convierte la masa a kg.',parameter:'Masa total a convertir',unit:'g',min:0,max:30,step:.001,base:500},
+ {title:'HORIZONTE RELATIVISTA',nav:'Relatividad',objectiveTitle:'JEFE FINAL / IMPULSO DE ESCAPE',formula:'E<sub>c</sub> = (γ − 1)mc²',note:'γ = 1/√(1 − (v/c)²). Energía cinética, sin sumar el reposo.',parameter:'Energía cinética del impulso',unit:'TJ',min:0,max:1500,step:1,base:600}
+];
+const state={index:0,score:0,streak:0,completed:Array(7).fill(false),challenges:Array(7).fill(null),speed:1,sound:false,run:null,particles:[],tick:0,last:0,paintTime:0,campaignShown:false,modalFocus:null,storage:true};
+const online={user:null,progress:null,csrf:null,ready:false,busy:false};
+async function api(path,method='GET',body){const r=await fetch(path,{method,credentials:'same-origin',headers:{'Content-Type':'application/json',...(online.csrf?{'X-CSRF-Token':online.csrf}:{})},body:body?JSON.stringify(body):undefined});const d=await r.json();if(!r.ok)throw Error(d.error||'Servidor no disponible');return d;}
+async function serverChallenge(i){const ch=await api('/api/game/challenge','POST',{mission:i});const old=state.challenges[i];state.challenges[i]={data:ch.data,code:ch.id,value:defaultValue(i),photon:1,unit:ch.data.massUnit||definitions[i].unit,calc:'',attempts:old?.attempts||0,lives:3,solved:!!online.progress?.completed[i],feedback:null};if(i===5)state.challenges[i].value=50;}
+const classroom={id:null,role:null,attempts:[0,0,0],started:[null,null,null],names:['INDAGA','EXPLICA','DISEÑA'],capacityByMission:[1,1,0,2,1,0,2],isTesting:false};
+const studentKey=()=>STORE_KEY+'-student-'+classroom.id;
+const rosterKey=STORE_KEY+'-roster';
+const now=()=>Date.now();
+const canvas=$('canvas'),ctx=canvas.getContext('2d');
+let W=900,H=520,DPR=1,audio=null;
+const stars=Array.from({length:90},(_,i)=>({x:((i*73+13)%997)/997,y:((i*47+7)%593)/593,r:i%5===0?1.4:.7,phase:i*.9}));
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const round=(n,d=6)=>Number(n.toFixed(d));
+const close=(a,b)=>Number.isFinite(a)&&Math.abs(a-b)<=1e-8*Math.max(1,Math.abs(b));
+const fmt=(n,d=2)=>Number.isFinite(n)?new Intl.NumberFormat('es-PE',{maximumFractionDigits:d}).format(Math.abs(n)<1e-9?0:n):'—';
+const randomInt=(min,max)=>{const b=new Uint32Array(1);if(globalThis.crypto&&globalThis.crypto.getRandomValues){globalThis.crypto.getRandomValues(b);return min+b[0]%(max-min+1);}return min+Math.floor(Math.random()*(max-min+1));};
+const pick=a=>a[randomInt(0,a.length-1)];
+const challengeCode=i=>(i+1)+'-'+randomInt(0,0xffffff).toString(16).padStart(6,'0').toUpperCase();
+const current=()=>state.challenges[state.index];
+const def=()=>definitions[state.index];
+const energyText=(tj)=>tj>=1000?fmt(tj/1000,3)+' PJ':fmt(tj,3)+' TJ';
+function generateData(i,first){
+  if(first){return [
+    {m:4,v:30},
+    {m:4,k:160,h:18},
+    {m:5,h:40,initial:2000,final:800,d:10},
+    {m:40,h:12,t:8},
+    {phi:2,target:0.8},
+    {targetTJ:18,massUnit:'mg'},
+    {massG:3,beta:.8}
+  ][i];}
+  if(i===0)return {m:pick([2,3,4,5,6,8]),v:pick([10,20,30,40,50,60])};
+  if(i===1){const m=pick([2,4,5,8,10]),factor=pick([2,3,4,5]),x=pick([1,2,3,4]);return {m,k:20*m*factor,h:factor*x*x};}
+  if(i===2){const m=pick([2,4,5,10]),f=pick([20,40,60,80,100,120,140,160,180,200]),final=pick([200,400,600,800,1000,1200]),initial=final+f*10;return {m,h:initial/(G*m),initial,final,d:10};}
+  if(i===3){const m=pick([20,40,60,80]),h=pick([4,6,8,10,12]),t=pick([2,4,5,8,10]);if(Number.isInteger(m*G*h/t)&&m*G*h/t<=2800)return {m,h,t};return generateData(i,false);}
+  if(i===4){const phi=pick([1.2,1.6,2,2.2,2.4,3.2]),allowed=photons.filter(p=>p.energy>phi),p=pick(allowed);return {phi,target:round(p.energy-phi,1)};}
+  if(i===5){const unit=pick(['g','mg']),mass=unit==='g'?pick([2,4,5,10,20]):pick([20,40,100,200,400,500]);return {targetTJ:round(mass*(unit==='g'?90:.09),3),massUnit:unit};}
+  return {massG:pick([3,6,9,12]),beta:.8,...(randomInt(0,1)?{massG:pick([4,8,12,16]),beta:.6}:{})};
+}
+function defaultValue(i){return [18,1,40,250,40,50,40][i];}
+function newChallenge(i,first=false){
+ if(online.ready){online.busy=true;serverChallenge(i).then(()=>renderMission()).catch(e=>{$('fieldError').textContent=e.message;}).finally(()=>{online.busy=false;});return;}
+ const data=generateData(i,first);state.challenges[i]={data,code:'cargando',value:defaultValue(i),photon:1,unit:data.massUnit||definitions[i].unit,calc:'',attempts:0,lives:3,solved:false,feedback:null};
+}
+function answer(i,d,unit){
+  if(i===0)return d.v*d.v/(2*G);
+  if(i===1)return Math.sqrt(2*d.m*G*d.h/d.k);
+  if(i===2)return (d.initial-d.final)/d.d;
+  if(i===3)return d.m*G*d.h/d.t;
+  if(i===4)return round(d.phi+d.target,2);
+  if(i===5)return d.targetTJ/(unit==='mg'?.09:90);
+  const gamma=d.beta===.6?1.25:5/3;
+  return (gamma-1)*(d.massG/1000)*C2/1e12;
+}
+function loadProgress(){const d=online.progress;if(!d)return;classroom.attempts=d.attempts.slice();classroom.started=d.started.slice();if(classroom.role!=='admin'){state.score=d.score;state.completed=d.completed.slice();}state.campaignShown=state.completed.every(Boolean);}
+function saveProgress(){loadProgress();if(typeof refreshClassroom==='function')refreshClassroom();}
+function capacityIndex(i=state.index){return classroom.capacityByMission[i];}
+function capacityRemaining(i=state.index){
+ if(classroom.role==='admin')return Infinity;
+ const j=capacityIndex(i),t=classroom.started[j];
+ return Math.max(0,3-classroom.attempts[j]);
+}
+function capacityExpired(i=state.index){
+ if(classroom.role==='admin')return false;
+ const t=classroom.started[capacityIndex(i)];return t!==null&&Number.isFinite(t)&&now()-t>=45*60000;
+}
+function isCapacityLocked(i=state.index){return !classroom.id||capacityRemaining(i)<=0||capacityExpired(i);}
+function gradeFor(j){
+ const indexes=classroom.capacityByMission.map((x,i)=>x===j?i:-1).filter(x=>x>=0);
+ const sum=indexes.reduce((acc,i)=>acc+(state.completed[i]?1:0),0);
+ return Number((sum/indexes.length*20).toFixed(2));
+}
+function updateHud(){
+  $('score').textContent=String(state.score).padStart(6,'0');
+  $('streak').textContent=state.streak;
+  $('completeCount').textContent=state.completed.filter(Boolean).length;
+  $('fireMeter').setAttribute('aria-label','Racha de '+state.streak+' éxitos');
+  [...$('fireMeter').children].forEach((el,i)=>el.classList.toggle('lit',i<state.streak));
+  $('shields').innerHTML=Array.from({length:3},(_,i)=>'<span class="shield '+(i>=current().lives?'lost':'')+'" aria-hidden="true">⬡</span>').join('')+'<small>'+current().lives+'/3</small>';
+  $('shields').setAttribute('aria-label',current().lives+' intentos disponibles');
+  document.querySelectorAll('.mission-tab').forEach((b,i)=>{
+    b.classList.toggle('active',i===state.index);b.classList.toggle('solved',state.completed[i]);b.setAttribute('aria-pressed',String(i===state.index));b.disabled=!!state.run;
+    b.setAttribute('aria-label','Misión '+(i+1)+': '+definitions[i].nav+(state.completed[i]?'. Dominada':''));
+  });
+}
+function renderNav(){
+  definitions.forEach((d,i)=>{const b=document.createElement('button');b.type='button';b.className='mission-tab';b.innerHTML='<span class="num mono">'+String(i+1).padStart(2,'0')+'</span><span>'+d.nav+'</span>';b.addEventListener('click',()=>switchMission(i));$(i<4?'classicalNav':'quantumNav').appendChild(b);});
+}
+function fact(label,value,target=false){return '<div class="fact '+(target?'target':'')+'"><small>'+label+'</small><strong>'+value+'</strong></div>';}
+function setRange(){
+  const i=state.index,c=current(),d=def();
+  const max=i===5?(c.unit==='mg'?30000:30):d.max;
+  const step=i===5?(c.unit==='mg'?1:.001):d.step;
+  for(const el of [$('paramNumber'),$('paramSlider')]){el.min=d.min;el.max=max;el.step=step;}
+  $('rangeMin').textContent=d.min+' '+(i===5?c.unit:d.unit);
+  $('rangeMax').textContent=fmt(max)+' '+(i===5?c.unit:d.unit);
+  $('paramUnit').textContent=i===5?c.unit:d.unit;
+  $('paramNumber').value=fmtInput(c.value);
+  $('paramSlider').value=c.value;
+  updateSlider();
+}
+function fmtInput(v){return Number.isFinite(v)?String(round(v,6)):'';}
+function updateSlider(){const s=$('paramSlider');s.style.setProperty('--fill',((Number(s.value)-Number(s.min))/(Number(s.max)-Number(s.min))*100)+'%');}
+function renderMission(){
+  const i=state.index,c=current(),d=c.data,f=def();
+  document.documentElement.style.setProperty('--accent',i<4?COLORS.cyan:COLORS.pink);
+  $('missionNo').textContent=String(i+1).padStart(2,'0');
+  $('missionTitle').textContent=f.title;$('objectiveTitle').textContent=f.objectiveTitle;
+  $('challengeCode').textContent='RETO '+c.code;
+  $('formula').innerHTML=f.formula;$('formulaNote').textContent=f.note;
+  $('paramLabel').textContent=f.parameter;
+  const objectives=[
+    'Haz que la cápsula llegue a la base exactamente a '+fmt(d.v)+' m/s.',
+    'Comprime el resorte para alcanzar una altura máxima de '+fmt(d.h)+' m.',
+    'Cruza la zona rugosa y entrega exactamente '+fmt(d.final)+' J de energía cinética.',
+    'Eleva la batería '+fmt(d.h)+' m en exactamente '+fmt(d.t)+' segundos.',
+    'Emite fotoelectrones con '+fmt(d.target,1)+' eV de energía cinética máxima.',
+    'Convierte la masa exacta para entregar '+energyText(d.targetTJ)+' al portal.',
+    'Calcula la energía cinética necesaria para alcanzar '+fmt(d.beta,1)+'c.'
+  ];
+  $('objective').textContent=objectives[i];
+  const facts=[
+    [fact('Masa',fmt(d.m)+' kg'),fact('Gravedad','10 m/s²'),fact('Velocidad objetivo',fmt(d.v)+' m/s',true)],
+    [fact('Masa',fmt(d.m)+' kg'),fact('Constante k',fmt(d.k)+' N/m'),fact('Altura objetivo',fmt(d.h)+' m',true)],
+    [fact('Energía inicial',fmt(d.initial)+' J'),fact('Tramo rugoso',fmt(d.d)+' m'),fact('Energía final',fmt(d.final)+' J',true)],
+    [fact('Masa',fmt(d.m)+' kg'),fact('Elevación',fmt(d.h)+' m'),fact('Tiempo exacto',fmt(d.t)+' s',true)],
+    [fact('Trabajo Φ',fmt(d.phi,1)+' eV'),fact('h de Planck','4.136·10⁻¹⁵'),fact('E꜀ objetivo',fmt(d.target,1)+' eV',true)],
+    [fact('Energía requerida',energyText(d.targetTJ),true),fact('Velocidad c','3·10⁸ m/s'),fact('Conversión','100 % ideal')],
+    [fact('Masa',fmt(d.massG)+' g'),fact('Velocidad',fmt(d.beta,1)+'c',true),fact('c²','9·10¹⁶')]
+  ];
+  $('facts').innerHTML=facts[i].join('');
+  $('spectrumSection').hidden=i!==4;$('massUnits').hidden=i!==5;
+  $('sceneTag').textContent=i<4?'G = 10 m/s²':i===4?'FOTONES · E = hν':'C = 3 × 10⁸ m/s';
+  $('energyUnit').textContent=i<4?'JOULES · J':i===4?'POR FOTÓN · eV':'TERAJOULES · TJ';
+  $('telemetryLabel').textContent=['REFERENCIA: BASE DE LA RAMPA','REFERENCIA: SALIDA DEL RESORTE','DISIPACIÓN: fᵣ × DISTANCIA','POTENCIA CONSTANTE · P = W/t','UN FOTÓN → UN ELECTRÓN','MASA TOTAL = MATERIA + ANTIMATERIA','RELATIVIDAD ESPECIAL · MARCO LOCAL'][i];
+  const notes=[
+    '<strong>El portal mide velocidad.</strong> Toda la energía potencial se transforma en cinética. La masa cambia la energía, pero no la altura requerida para una velocidad dada.',
+    '<strong>El resorte almacena energía cuadrática.</strong> Duplicar la compresión cuadruplica la energía. La altura máxima se alcanza cuando la velocidad vertical es cero.',
+    '<strong>La energía no desaparece.</strong> El rozamiento transforma energía mecánica en energía térmica. Las chispas representan esa disipación, no energía adicional.',
+    '<strong>La carrera es contra el reloj.</strong> El motor debe completar la elevación en el tiempo exacto. Más potencia también falla si la batería llega antes.',
+    '<strong>Nobel de Física de 1921.</strong> Einstein recibió el premio por sus aportes a la física teórica, en especial por la ley del efecto fotoeléctrico. La intensidad cambia la cantidad de fotones; la frecuencia determina su energía. IR y UV usan colores de representación.',
+    '<strong>Evita contar la masa dos veces.</strong> m es la masa total convertida, incluida la antimateria. Si los aportes son iguales, cada cámara aporta m/2. 1 g = 10⁻³ kg; 1 mg = 10⁻⁶ kg; 1 TJ = 10¹² J; 1 PJ = 10¹⁵ J.',
+    '<strong>Newton se queda corto cerca de c.</strong> Compara ½mv² con (γ − 1)mc². El agujero negro es el escenario: este reto calcula energía cinética local, sin modelar un campo gravitatorio.'
+  ];
+  $('scienceNote').innerHTML=notes[i];
+  $('calculation').value=c.calc;
+  $('calcHelp').textContent=i===4?'Tu operación debe dar la energía del fotón en eV. Elige ese fotón y una intensidad mayor que cero.':i===5?'Tu operación debe dar la masa en '+c.unit+'. Convierte primero la energía a J y la masa a la unidad elegida.':i===6?'Tu operación debe dar la energía cinética en TJ. Puedes usar sqrt() o el factor γ exacto.':'Tu operación debe dar '+f.parameter.toLowerCase()+' en '+f.unit+'. Un primer lanzamiento exacto con un cálculo correcto da puntos triples.';
+  setRange();renderSpectrum();updateParamNote();buildEnergyBars();renderFeedback();updateControls();updateHud();state.particles=[];
+  updateEnergy(c.finalSample||sampleIdle());
+}
+function renderSpectrum(){
+  if(state.index!==4)return;
+  const c=current();$('spectrum').innerHTML='';
+  photons.forEach((p,i)=>{const b=document.createElement('button');b.type='button';b.style.setProperty('--laser',p.color);b.innerHTML=p.short+'<strong>'+fmt(p.energy,1)+' eV</strong>';b.setAttribute('aria-label',p.name+', '+fmt(p.energy,1)+' eV');b.setAttribute('aria-pressed',String(c.photon===i));b.classList.toggle('active',c.photon===i);b.disabled=!!state.run||c.solved||!c.lives||isCapacityLocked();b.addEventListener('click',()=>{if(state.run||c.solved||!c.lives||isCapacityLocked())return;c.photon=i;delete c.finalSample;renderSpectrum();updateEnergy(sampleIdle());updateParamNote();sound('tick');});$('spectrum').appendChild(b);});
+  const p=photons[c.photon];$('spectrumNote').textContent=p.name+' · ν ≈ '+fmt(p.energy/H_EV/1e12,0)+' THz · λ ≈ '+fmt(C*H_EV/p.energy*1e9,0)+' nm';
+}
+function updateParamNote(){
+  const i=state.index,c=current(),v=c.value;
+  $('paramNote').textContent=[
+    'Base de referencia h = 0. Ajusta o escribe la altura.',
+    'La compresión se introduce en metros, no en centímetros.',
+    'Fricción horizontal. La rampa anterior no tiene pérdidas.',
+    'El núcleo concede el tiempo del reto; debes llegar justo al final.',
+    'Intensidad '+fmt(v,0)+' %: cambia cuántos fotones llegan al metal.',
+    'Se inyecta la masa total. Unidad activa: '+c.unit+'.',
+    '1 TJ = 10¹² J. No incluyas la energía de reposo mc².'
+  ][i];
+  $('massUnits').querySelectorAll('button').forEach(b=>{b.classList.toggle('active',b.dataset.unit===c.unit);b.setAttribute('aria-pressed',String(b.dataset.unit===c.unit));});
+}
+function buildEnergyBars(){
+  const labels=[
+    ['Potencial gravitatoria','Cinética','Energía mecánica','Objetivo en la base'],
+    ['Potencial elástica','Potencial gravitatoria','Cinética','Objetivo en la cumbre'],
+    ['Potencial gravitatoria','Cinética','Térmica disipada','Objetivo de salida'],
+    ['Trabajo entregado','Potencial de la batería','Trabajo requerido','Presupuesto P · t'],
+    ['Energía del fotón','Umbral del metal Φ','Cinética máxima','Objetivo fotoelectrón'],
+    ['Energía convertida','Reposo disponible mc²','Objetivo del portal','Energía restante'],
+    ['Cinética relativista','Newton para v actual','Reposo mc²','Energía inyectada']
+  ][state.index];
+  const colors=[COLORS.cyan,COLORS.blue,COLORS.orange,COLORS.pink];
+  $('energyGrid').innerHTML=labels.map((name,i)=>'<div style="--bar-color:'+colors[i]+'"><div class="energy-label"><span>'+name+'</span><strong id="energyValue'+i+'">0 J</strong></div><div class="bar" role="meter" aria-label="'+name+'" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="energyMeter'+i+'"><div class="bar-fill" id="energyBar'+i+'"></div></div></div>').join('');
+}
+function config(i=state.index,c=current()){
+  const d=c.data,v=c.value;
+  if(i===0){const total=d.m*G*v,tRamp=Math.sqrt(4*v/G),speed=Math.sqrt(2*G*v),flat=20,tFlat=speed>0?flat/speed:0;return {total,tRamp,speed,flat,tFlat,duration:tRamp+tFlat||1};}
+  if(i===1){const total=.5*d.k*v*v,velocity=Math.sqrt(d.k/d.m)*v,tApex=velocity/G,height=velocity*velocity/(2*G);return {total,velocity,tApex,height,duration:tApex||1};}
+  if(i===2){const speed=Math.sqrt(2*d.initial/d.m),a=v/d.m,stopD=v>0?d.initial/v:Infinity,travel=Math.min(d.d,stopD),endSpeed=Math.sqrt(Math.max(0,speed*speed-2*a*travel)),tRough=2*travel/(speed+endSpeed),tRamp=Math.sqrt(4*d.h/G);return {total:d.initial,speed,a,stopD,travel,endSpeed,tRough,tRamp,duration:tRamp+tRough};}
+  if(i===3){const work=d.m*G*d.h,finish=v>0?work/v:Infinity;return {work,finish,duration:Math.min(d.t,finish)};}
+  if(i===4){const photon=photons[c.photon],emits=photon.energy>=d.phi&&v>0,kinetic=emits?round(photon.energy-d.phi,2):0;return {photon,emits,kinetic,duration:2};}
+  if(i===5){const available=v*(c.unit==='mg'?.09:90);return {available,duration:2.4};}
+  const rest=d.massG*90,gammaTarget=d.beta===.6?1.25:5/3,target=(gammaTarget-1)*rest;return {rest,gammaTarget,target,classic:.5*rest*d.beta*d.beta,duration:2.5};
+}
+function sampleIdle(){
+  const i=state.index,c=current(),d=c.data,k=config();
+  if(i===0)return {values:[k.total,0,k.total,.5*d.m*d.v*d.v],scale:Math.max(k.total,.5*d.m*d.v*d.v,1),time:0,q:0,height:c.value,speed:0};
+  if(i===1)return {values:[k.total,0,0,d.m*G*d.h],scale:Math.max(k.total,d.m*G*d.h,1),time:0,q:0,height:0,speed:0};
+  if(i===2)return {values:[d.initial,0,0,d.final],scale:d.initial,time:0,q:0,height:d.h,speed:0,rough:false,distance:0};
+  if(i===3)return {values:[0,0,k.work,c.value*d.t],scale:Math.max(k.work,c.value*d.t,1),time:0,q:0,height:0};
+  if(i===4)return {values:[k.photon.energy,d.phi,0,d.target],scale:Math.max(k.photon.energy,d.phi,d.target),time:0,q:0,emits:false};
+  if(i===5)return {values:[0,k.available,d.targetTJ,k.available],scale:Math.max(k.available,d.targetTJ,1),time:0,q:0};
+  return {values:[0,0,k.rest,0],scale:Math.max(k.rest,c.value,1),time:0,q:0,beta:0,gamma:1};
+}
+function sampleRun(r){
+  const i=r.index,c=r.challenge,d=c.data,k=r.config,p=clamp(r.elapsed/r.visualDuration,0,1),t=p*k.duration;
+  if(i===0){
+    const rampDone=t>=k.tRamp,q=k.tRamp>0?clamp((t/k.tRamp)**2,0,1):0,height=c.value*(1-q),speed=Math.sqrt(Math.max(0,2*G*(c.value-height))),flat=rampDone&&k.tFlat>0?clamp((t-k.tRamp)/k.tFlat,0,1):0;
+    return {values:[d.m*G*height,.5*d.m*speed*speed,k.total,.5*d.m*d.v*d.v],scale:Math.max(k.total,.5*d.m*d.v*d.v,1),time:t,q,height,speed,flat,progress:p};
+  }
+  if(i===1){
+    const height=Math.max(0,k.velocity*t-.5*G*t*t),speed=Math.max(0,k.velocity-G*t),pot=d.m*G*height,kin=.5*d.m*speed*speed;
+    return {values:[0,pot,kin,d.m*G*d.h],scale:Math.max(k.total,d.m*G*d.h,1),time:t,q:p,height,speed,progress:p};
+  }
+  if(i===2){
+    const rough=t>=k.tRamp,q=clamp((t/k.tRamp)**2,0,1),tr=clamp(t-k.tRamp,0,k.tRough),distance=rough?clamp(k.speed*tr-.5*k.a*tr*tr,0,k.travel):0,heat=Math.min(d.initial,c.value*distance),pot=rough?0:d.initial*(1-q),kin=rough?Math.max(0,d.initial-heat):d.initial*q,speed=Math.sqrt(2*kin/d.m);
+    return {values:[pot,kin,heat,d.final],scale:d.initial,time:t,q,height:d.h*(1-q),speed,rough,distance,progress:p};
+  }
+  if(i===3){const work=Math.min(k.work,c.value*t),height=work/(d.m*G);return {values:[work,work,k.work,c.value*d.t],scale:Math.max(k.work,c.value*d.t,1),time:t,q:height/d.h,height,remaining:Math.max(0,d.t-t),progress:p};}
+  if(i===4)return {values:[k.photon.energy,d.phi,k.kinetic,d.target],scale:Math.max(k.photon.energy,d.phi,d.target),time:t,q:p,emits:k.emits,progress:p};
+  if(i===5){const converted=k.available*p;return {values:[converted,k.available,d.targetTJ,k.available-converted],scale:Math.max(k.available,d.targetTJ,1),time:t,q:p,progress:p};}
+  const kinetic=c.value*p,gamma=1+kinetic/k.rest,beta=Math.sqrt(Math.max(0,1-1/(gamma*gamma))),classic=.5*k.rest*beta*beta;
+  return {values:[kinetic,classic,k.rest,kinetic],scale:Math.max(k.rest,c.value,1),time:t,q:p,beta,gamma,progress:p};
+}
+function updateEnergy(s){
+  const unit=state.index<4?'J':state.index===4?'eV':'TJ';
+  s.values.forEach((value,i)=>{const text=fmt(value,state.index===4?2:2)+' '+unit,percent=clamp(value/s.scale*100,0,100);$('energyValue'+i).textContent=text;$('energyBar'+i).style.width=percent+'%';$('energyMeter'+i).setAttribute('aria-valuenow',fmt(percent,0));$('energyMeter'+i).setAttribute('aria-valuetext',text);});
+  $('physicalTime').textContent=fmt(s.time,2)+' s';
+  const i=state.index,c=current(),d=c.data;
+  $('telemetryValue').textContent=[
+    'h = '+fmt(s.height)+' m · v = '+fmt(s.speed)+' m/s',
+    'h = '+fmt(s.height)+' m · vᵧ = '+fmt(s.speed)+' m/s',
+    (s.rough?'TRAMO RUGOSO '+fmt(s.distance)+' / 10 m':'DESCENSO SIN FRICCIÓN')+' · v = '+fmt(s.speed)+' m/s',
+    'h = '+fmt(s.height)+' m · RESTAN '+fmt(s.remaining===undefined?d.t:s.remaining)+' s',
+    (s.emits?'EMISIÓN ACTIVA':'SIN EMISIÓN')+' · INTENSIDAD '+fmt(c.value,0)+' %',
+    'CONVERSIÓN '+fmt(s.q*100,0)+' % · MASA '+fmt(c.value,3)+' '+c.unit,
+    'v = '+fmt(s.beta,4)+'c · γ = '+fmt(s.gamma,4)
+  ][i];
+}
+function evaluate(i,c){
+  const d=c.data,k=config(i,c);
+  if(i===0){const target=.5*d.m*d.v*d.v;return {success:close(k.total,target),delta:k.total-target,actual:k.speed,targetEnergy:target};}
+  if(i===1){const target=d.m*G*d.h;return {success:close(k.total,target),delta:k.total-target,actual:k.height,targetEnergy:target};}
+  if(i===2){const actual=Math.max(0,d.initial-c.value*d.d);return {success:close(actual,d.final)&&k.stopD>=d.d,delta:actual-d.final,actual,stopped:k.stopD<d.d,stopAt:k.stopD,targetEnergy:d.final};}
+  if(i===3)return {success:close(c.value,answer(i,d,c.unit)),delta:c.value*d.t-k.work,actual:k.finish,targetEnergy:k.work};
+  if(i===4)return {success:k.emits&&close(k.kinetic,d.target),delta:k.kinetic-d.target,actual:k.kinetic,threshold:k.photon.energy-d.phi,emits:k.emits,targetEnergy:d.target};
+  if(i===5)return {success:close(k.available,d.targetTJ),delta:k.available-d.targetTJ,actual:k.available,targetEnergy:d.targetTJ};
+  const gamma=1+c.value/k.rest,beta=Math.sqrt(1-1/(gamma*gamma));
+  return {success:close(c.value,k.target),delta:c.value-k.target,actual:beta,targetEnergy:k.target};
+}
+function parseCalculation(raw){
+  const src=raw.toLowerCase().replaceAll('×','*').replaceAll('÷','/').replaceAll('−','-').replaceAll(',','.').replace(/\s/g,'');
+  if(!src||src.length>180)throw Error('Escribe una operación con números.');
+  if(!/^[0-9.+*/^()\-sqrt]+$/.test(src))throw Error('Usa números, + - * / ^, paréntesis y sqrt().');
+  const tokens=src.match(/sqrt|(?:\d+\.?\d*|\.\d+)|[()+*/^\-]/g);
+  if(!tokens||tokens.join('')!==src||tokens.length>100)throw Error('La operación no es válida.');
+  let pos=0,depth=0,operations=0;
+  const peek=()=>tokens[pos];
+  const take=t=>{if(peek()!==t)throw Error('Revisa los paréntesis de tu operación.');pos++;};
+  function primary(){
+    if(++depth>35)throw Error('La operación es demasiado larga.');
+    let v;
+    if(peek()==='sqrt'){operations++;pos++;take('(');v=Math.sqrt(expression());take(')');}
+    else if(peek()==='('){pos++;v=expression();take(')');}
+    else{const token=tokens[pos++];if(!token||!/^(\d+\.?\d*|\.\d+)$/.test(token))throw Error('Falta un número en la operación.');v=Number(token);}
+    depth--;return v;
+  }
+  function power(){let v=primary();if(peek()==='^'){operations++;pos++;v=v**unary();}return v;}
+  function unary(){if(peek()==='+'){pos++;return unary();}if(peek()==='-'){pos++;return -unary();}return power();}
+  function term(){let v=unary();while(peek()==='*'||peek()==='/'){operations++;const op=tokens[pos++],b=unary();v=op==='*'?v*b:v/b;}return v;}
+  function expression(){let v=term();while(peek()==='+'||peek()==='-'){operations++;const op=tokens[pos++],b=term();v=op==='+'?v+b:v-b;}return v;}
+  const result=expression();
+  if(pos!==tokens.length||!Number.isFinite(result))throw Error('La operación no produce un número finito.');
+  const hasOperation=operations>0;
+  return {value:result,hasOperation};
+}
+function calculationStatus(c,i){
+  if(!c.calc.trim())return {valid:false,reason:'Sin operación previa: se conceden los puntos normales.'};
+  try{const p=parseCalculation(c.calc),expected=answer(i,c.data,c.unit);return {valid:p.hasOperation&&close(p.value,expected),reason:!p.hasOperation?'Escribiste un resultado, pero el bono requiere una operación.':!close(p.value,expected)?'La operación previa no produjo el parámetro correcto en la unidad elegida.':'Cálculo previo verificado.'};}
+  catch(e){return {valid:false,reason:e.message};}
+}
+function successSteps(i,c){
+  const d=c.data,v=c.value,k=config(i,c);
+  if(i===0)return ['Iguala mgh = ½mv² y cancela m: h = v²/(2g).','h = '+d.v+'² / (2 × 10) = '+fmt(answer(i,d,c.unit))+' m.','Eₚ = '+d.m+' × 10 × '+fmt(v)+' = '+fmt(k.total)+' J; E꜀ = ½ × '+d.m+' × '+d.v+'² = '+fmt(k.total)+' J.','v = √(2 × 10 × '+fmt(v)+') = '+d.v+' m/s. El portal se abre.'];
+  if(i===1)return ['Despeja x: x = √(2mgh/k).','x = √(2 × '+d.m+' × 10 × '+d.h+' / '+d.k+') = '+fmt(v)+' m.','Eₑ = ½ × '+d.k+' × '+fmt(v)+'² = '+fmt(k.total)+' J = mgh.','En la altura máxima h = '+d.h+' m, vᵧ = 0 y toda la energía es potencial gravitatoria.'];
+  if(i===2)return ['Despeja fᵣ = (Eᵢ − Eꜰ)/d.','fᵣ = ('+fmt(d.initial)+' − '+fmt(d.final)+') / 10 = '+fmt(v)+' N.','Energía térmica = fᵣd = '+fmt(v)+' × 10 = '+fmt(v*10)+' J.','Eꜰ = '+fmt(d.initial)+' − '+fmt(v*10)+' = '+fmt(d.final)+' J. Se conserva Eꜰ + Eₜérmica = Eᵢ.'];
+  if(i===3)return ['Trabajo requerido: W = mgh = '+d.m+' × 10 × '+d.h+' = '+fmt(k.work)+' J.','P = W/t = '+fmt(k.work)+' / '+d.t+' = '+fmt(v)+' W.','Tiempo de elevación: t = W/P = '+fmt(k.work)+' / '+fmt(v)+' = '+d.t+' s.','La batería llega justo al límite. El motor entrega '+fmt(k.work)+' J, sin exceder ni retrasar el tiempo.'];
+  if(i===4)return ['Despeja Eꜰotón = E꜀,máx + Φ.','Eꜰotón = '+fmt(d.target,1)+' + '+fmt(d.phi,1)+' = '+fmt(k.photon.energy,1)+' eV → '+k.photon.name+'.','E꜀,máx = '+fmt(k.photon.energy,1)+' − '+fmt(d.phi,1)+' = '+fmt(k.kinetic,1)+' eV.','ν ≈ '+fmt(k.photon.energy/H_EV/1e12,0)+' THz. Intensidad '+fmt(v,0)+' %: cambia la cantidad de electrones, no su energía máxima.'];
+  if(i===5){const kg=v*(c.unit==='mg'?1e-6:1e-3);return ['Despeja m = E/c². Convierte la energía: '+energyText(d.targetTJ)+' = '+fmt(d.targetTJ)+' × 10¹² J.','m = ('+fmt(d.targetTJ)+' × 10¹²)/(9 × 10¹⁶) = '+fmt(kg,9)+' kg.','Conversión de unidad: '+fmt(kg,9)+' kg = '+fmt(v,3)+' '+c.unit+'.','E = '+fmt(kg,9)+' × 9 × 10¹⁶ = '+energyText(k.available)+'. La masa total incluye ambas cámaras.'];}
+  const gammaText=d.beta===.6?'5/4 = 1.25':'5/3',classic=k.classic,gap=k.target-classic;
+  return ['γ = 1/√(1 − '+fmt(d.beta,1)+'²) = '+gammaText+'.','m = '+d.massG+' g = '+fmt(d.massG/1000,3)+' kg; mc² = '+fmt(k.rest)+' TJ.','E꜀ = (γ − 1)mc² = '+(d.beta===.6?'¼':'⅔')+' × '+fmt(k.rest)+' = '+fmt(k.target)+' TJ.','Newton daría ½mv² = '+fmt(classic)+' TJ: faltan '+fmt(gap)+' TJ ('+fmt(gap/k.target*100,1)+' % de la energía relativista).'];
+}
+function failureHint(i,c,o){
+  const d=c.data,unit=i<4?'J':i===4?'eV':'TJ',direction=o.delta<0?'Faltaron ':'Sobraron ',delta=fmt(Math.abs(o.delta),i===4?2:3);
+  let message=direction+delta+' '+unit+' respecto al objetivo.',hint='',formula='';
+  if(i===0){message+=' La cápsula alcanzó '+fmt(o.actual)+' m/s.';hint=o.delta<0?'Aumenta la altura; falta energía potencial inicial.':'Reduce la altura; la cápsula llega demasiado rápida.';formula='Despeja h en mgh = ½mv². La masa se cancela.';}
+  if(i===1){message+=' Altura máxima: '+fmt(o.actual)+' m.';hint=o.delta<0?'Comprime más el resorte. La energía crece con x².':'Reduce la compresión; el resorte almacena demasiada energía.';formula='Despeja x² en ½kx² = mgh y luego toma la raíz cuadrada.';}
+  if(i===2){if(o.stopped)message+=' La cápsula se detuvo a '+fmt(o.stopAt)+' m del inicio del tramo.';hint=o.delta<0?'Reduce fᵣ: estás disipando demasiada energía.':'Aumenta fᵣ: falta transformar más energía mecánica en térmica.';formula='Despeja fᵣ en Eᵢ − fᵣd = Eꜰ, con d = 10 m.';}
+  if(i===3){message=direction+delta+' J en el presupuesto de trabajo P·t.';message+=Number.isFinite(o.actual)?' Con esa potencia, la elevación completa tomaría '+fmt(o.actual)+' s.':' Con P = 0 no se realiza trabajo.';hint=o.delta<0?'Aumenta P: la batería no alcanza su destino dentro del tiempo.':'Reduce P: el motor llega antes del instante exacto.';formula='Despeja P = W/t. Calcula primero W = mgh.';}
+  if(i===4){
+    if(c.value===0){message='No se dispararon fotones: la intensidad es 0 %.';hint='Selecciona una intensidad mayor que cero. Después verifica la energía por fotón.';}
+    else if(o.threshold<0){message='Ningún electrón se desprendió. Cada fotón quedó '+fmt(-o.threshold,2)+' eV por debajo del umbral Φ.';hint='Aumenta la frecuencia. Incluso al 100 % de intensidad, llegan más fotones con energía insuficiente; no se acumulan para arrancar un electrón en este modelo.';}
+    else{message+=o.threshold===0?' En el umbral, los electrones salen sin energía cinética.':'';hint=o.delta<0?'Elige un fotón de mayor energía. La intensidad no aumenta E꜀,máx.':'Elige un fotón de menor energía que aún supere Φ. La intensidad no reduce E꜀,máx.';}
+    formula='Despeja Eꜰotón en E꜀,máx = Eꜰotón − Φ.';
+  }
+  if(i===5){hint=o.delta<0?'Aumenta la masa total; verifica las conversiones de TJ o PJ a J y de '+c.unit+' a kg.':'Reduce la masa total; no cuentes dos veces la materia y la antimateria.';formula='Despeja m = E/c², con c² = 9 × 10¹⁶. Luego convierte kg a '+c.unit+'.';}
+  if(i===6){message+=' El impulso produjo v = '+fmt(o.actual,4)+'c.';hint=o.delta<0?'Aumenta la energía cinética. ½mv² subestima la energía cerca de c.':'Reduce la energía del impulso. No sumes mc² a la energía cinética.';formula='Calcula γ = 1/√(1 − (v/c)²) y luego E꜀ = (γ − 1)mc².';}
+  return {message,hint,formula};
+}
+function renderFeedback(){
+  const c=current(),f=c.feedback;
+  const el=$('feedback');el.className='feedback '+(f?f.success?'win':'fail':'ready');
+  if(!f){el.innerHTML='<div class="feedback-head"><div><h3>LA FÍSICA ES TU MEJOR ARMA.</h3><p>Resuelve el reto, ajusta el parámetro y comprueba tu cálculo en la pista.</p></div></div><div class="wait-steps"><span>01 CALCULA</span><span>02 AJUSTA</span><span>03 LANZA</span></div>';return;}
+  if(f.success){
+    el.innerHTML='<div class="feedback-head"><div><h3>'+(f.critical?'¡CÁLCULO CRÍTICO! ×3 PUNTOS':'¡MISIÓN SUPERADA!')+'</h3><p>'+(f.critical?'Primer intento exacto y operación previa verificada.':'La energía coincide con el objetivo. '+f.calcReason)+'</p></div><span class="feedback-points mono">+'+fmt(f.points,0)+'</span></div><ol class="step-list">'+successSteps(state.index,c).map(x=>'<li><span class="mono">'+x+'</span></li>').join('')+'</ol><p>Racha '+state.streak+' · '+f.base+' puntos'+(f.critical?' × 3':'')+(f.streakBonus?' + '+f.streakBonus+' de racha':'')+'.</p><button class="next-btn" id="nextBtn">'+(state.index<6?'SIGUIENTE MISIÓN →':'VOLVER AL ACTO I →')+'</button>';
+    $('nextBtn').addEventListener('click',()=>{switchMission((state.index+1)%7);if(window.innerWidth<=820)$('launchForm').scrollIntoView({behavior:'smooth',block:'start'});});
+  }else{
+    const h=f.hint;
+    el.innerHTML='<div class="feedback-head"><div><h3>'+(c.lives?'ESCUDO IMPACTADO / RECALIBRA':'ESCUDO AGOTADO / NUEVO RETO')+'</h3><p>'+h.message+'</p></div><span class="mono" style="color:var(--red);white-space:nowrap">'+c.lives+'/3</span></div><p>'+h.hint+'</p><p class="hint-formula">'+h.formula+'</p><p>'+(c.lives?'Tienes '+c.lives+' '+(c.lives===1?'intento disponible.':'intentos disponibles.')+' El siguiente acierto dará puntos normales.':'Genera un caso distinto para recuperar las 3 cargas del escudo.')+'</p><button class="next-btn" id="adjustBtn">'+(c.lives?'AJUSTAR PARÁMETRO ↘':'GENERAR OTRO RETO ↘')+'</button>';
+    $('adjustBtn').addEventListener('click',()=>{if(c.lives){$('paramNumber').scrollIntoView({behavior:'smooth',block:'center'});$('paramNumber').focus({preventScroll:true});}else{$('generateBtn').click();if(window.innerWidth<=820)$('launchForm').scrollIntoView({behavior:'smooth',block:'start'});}});
+  }
+}
+function updateControls(){
+  const c=current(),busy=!!state.run,locked=busy||c.solved||c.lives===0||isCapacityLocked();
+  for(const id of ['paramNumber','paramSlider','calculation'])$(id).disabled=locked;
+  $('launchBtn').disabled=locked;$('generateBtn').disabled=busy||isCapacityLocked();
+  $('launchBtn').textContent=busy?'SIMULACIÓN EN CURSO…':isCapacityLocked()?'SIN MÁS INTENTOS / TIEMPO':c.solved?'✓ RETO DOMINADO':!c.lives?'ESCUDO AGOTADO':'ϟ ¡EJECUTAR LANZAMIENTO!';
+  $('pauseBtn').disabled=!busy;$('pauseBtn').textContent=state.run&&state.run.paused?'▶':'Ⅱ';
+  $('pauseBtn').setAttribute('aria-label',state.run&&state.run.paused?'Reanudar simulación':'Pausar simulación');
+  $('massUnits').querySelectorAll('button').forEach(b=>b.disabled=locked);
+  $('resetBtn').disabled=busy||classroom.role!=='admin';$('resetBtn').hidden=classroom.role!=='admin';
+  if(busy){$('sceneState').className='scene-state running';$('sceneState').textContent=state.run.paused?'Ⅱ EN PAUSA':'● EN SIMULACIÓN';}
+  else if(c.feedback){$('sceneState').className='scene-state '+(c.solved?'win':'fail');$('sceneState').textContent=c.solved?'✓ OBJETIVO ALCANZADO':!c.lives?'× ESCUDO AGOTADO':'↻ AJUSTE REQUERIDO';}
+  else{$('sceneState').className='scene-state';$('sceneState').textContent='● EN ESPERA';}
+  renderSpectrum();updateHud();
+}
+function switchMission(i){
+  if(state.run)return;state.index=i;if(!state.challenges[i])newChallenge(i,true);renderMission();saveProgress();sound('tick');
+}
+function setValue(raw,fromRange=false){
+  if(state.run||current().solved||!current().lives||isCapacityLocked())return;
+  const value=Number(String(raw).replace(',','.'));
+  if(String(raw).trim()===''||!Number.isFinite(value)||value<Number($('paramNumber').min)||value>Number($('paramNumber').max))return;
+  current().value=value;
+  if(fromRange)$('paramNumber').value=fmtInput(value);
+  else $('paramSlider').value=clamp(value,Number($('paramSlider').min),Number($('paramSlider').max));
+  updateSlider();updateParamNote();$('fieldError').textContent='';
+  if(value>=0&&value<=Number($('paramNumber').max)){updateEnergy(sampleIdle());}
+}
+async function launch(){
+  if(online.busy||!online.ready||state.run||current().solved||!current().lives||isCapacityLocked())return;
+  const c=current(),value=Number(String($('paramNumber').value).replace(',','.')),min=Number($('paramNumber').min),max=Number($('paramNumber').max);
+  if(!$('paramNumber').value.trim()||!Number.isFinite(value)||value<min||value>max){$('fieldError').textContent='Introduce un valor entre '+fmt(min)+' y '+fmt(max)+' '+$('paramUnit').textContent+'.';$('paramNumber').focus();return;}
+  if(c.serverUsed){online.busy=true;try{await serverChallenge(state.index);renderMission();$('fieldError').textContent='Nuevo reto del servidor. Revisa sus datos antes de lanzar.';}catch(e){$('fieldError').textContent=e.message;}finally{online.busy=false;}return;}
+  c.value=value;c.calc=$('calculation').value;
+  const calc=calculationStatus(c,state.index),outcome=evaluate(state.index,c);
+  online.busy=true;$('launchBtn')?.setAttribute('disabled','');
+  try{const result=await api('/api/game/submit','POST',{challengeId:c.code,answer:{value:c.value,photon:c.photon,unit:c.unit}});online.progress=result.progress;outcome.success=result.success;c.serverUsed=true;loadProgress();}catch(e){$('fieldError').textContent=e.message;return;}finally{online.busy=false;updateControls();}
+
+  c.attempts++;
+  state.run={index:state.index,challenge:c,config:config(),outcome,calc,elapsed:0,visualDuration:4.2,paused:false,lastSpark:0};
+  c.feedback=null;$('feedback').className='feedback ready';$('feedback').innerHTML='<h3>LANZAMIENTO EN CURSO…</h3><p>Observa cómo se transforma la energía. La simulación evalúa el parámetro al completar el recorrido.</p>';
+  state.particles=[];emit(W*.16,H*.75,28,state.index<4?COLORS.cyan:COLORS.pink,2);sound('launch');updateControls();
+  if(window.innerWidth<=820)$('simPanel').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function completeRun(){
+  const r=state.run;if(!r)return;
+  const c=r.challenge,o=r.outcome;
+  if(o.success){
+    const critical=c.attempts===1&&r.calc.valid;c.solved=true;
+    state.streak++;state.completed[r.index]=true;
+    const base=definitions[r.index].base,streakBonus=50*Math.min(Math.max(state.streak-1,0),5),points=base*(critical?3:1)+streakBonus;
+    state.score+=points;c.feedback={success:true,critical,base,streakBonus,points,calcReason:r.calc.reason};
+    emit(W*.70,H*.44,critical?130:65,critical?COLORS.orange:COLORS.cyan,3.2);emit(W*.88,H*.5,50,COLORS.pink,2.4);sound(critical?'critical':'success');
+    $('simPanel').classList.remove('critical-flash');if(critical){void $('simPanel').offsetWidth;$('simPanel').classList.add('critical-flash');}
+    $('score').classList.remove('score-pop');void $('score').offsetWidth;$('score').classList.add('score-pop');
+  }else{c.lives--;state.streak=0;c.feedback={success:false,hint:failureHint(r.index,c,o)};emit(W*.72,H*.60,40,COLORS.red,1.8);sound('fail');}
+  c.finalSample=sampleRun(r);state.run=null;saveProgress();updateControls();renderFeedback();updateEnergy(c.finalSample);
+  if(state.completed.every(Boolean)&&!state.campaignShown){state.campaignShown=true;showModal('complete');}
+}
+function sound(type){
+  if(!state.sound)return;
+  try{
+    if(!audio)audio=new(window.AudioContext||window.webkitAudioContext)();
+    if(audio.state==='suspended')audio.resume();
+    const sequences={tick:[520],launch:[120,220,400],success:[440,660,880],critical:[330,440,660,880,1320],fail:[220,140,90]};
+    (sequences[type]||[440]).forEach((freq,i)=>{const o=audio.createOscillator(),g=audio.createGain(),t=audio.currentTime+i*.085;o.type=type==='fail'?'triangle':'sine';o.frequency.setValueAtTime(freq,t);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.045,t+.012);g.gain.exponentialRampToValueAtTime(.001,t+.18);o.connect(g);g.connect(audio.destination);o.start(t);o.stop(t+.19);});
+  }catch(_){state.sound=false;$('soundBtn').textContent='SONIDO OFF';$('soundBtn').setAttribute('aria-pressed','false');}
+}
+function showModal(kind){
+  state.modalFocus=document.activeElement;
+  $('modalBackdrop').hidden=false;
+  let html='';
+  if(kind==='help')html='<p class="eyebrow">PROTOCOLO DE VUELO</p><h2 id="modalTitle">La precisión abre portales.</h2><ul><li>Elige una misión y lee los datos. Todos los niveles están disponibles.</li><li>Resuelve la ecuación. Introduce el parámetro o usa el deslizador.</li><li>Para el bono <strong style="color:var(--orange)">¡CÁLCULO CRÍTICO! ×3</strong>, escribe una operación correcta en la bitácora y acierta en el primer lanzamiento.</li><li>Puedes escribir <code>sqrt()</code>, <code>^</code>, <code>*</code>, <code>/</code> y paréntesis. El cálculo debe dar el valor en la unidad activa.</li><li>Tienes 3 cargas de escudo. Cada fallo muestra una pista y reinicia la racha.</li><li>Generar Nuevo Reto cambia los datos y recupera el escudo. Repetir un reto ya ganado no vuelve a dar puntos.</li></ul><p>En móvil, usa el campo numérico para ajustar con precisión. El archivo funciona sin internet y el sonido es opcional.</p><button id="modalClose">ENTRAR AL LABORATORIO →</button>';
+  if(kind==='complete')html='<div class="trophy">✧</div><p class="eyebrow">LOS DOS ACTOS COMPLETADOS</p><h2 id="modalTitle">DE NEWTON A EINSTEIN.</h2><p>Dominaste las 7 misiones. Conservaste energía, superaste el umbral cuántico y aceleraste más allá del modelo clásico.</p><p class="mono" style="font-size:30px;color:var(--orange)">'+fmt(state.score,0)+' PUNTOS</p><p>Genera nuevos casos para seguir entrenando y mejorar tu racha.</p><button id="modalClose">VOLVER A LA PISTA →</button>';
+  if(kind==='reset')html='<h2 id="modalTitle">Reiniciar el laboratorio</h2><p>Se borrarán el puntaje, la racha y las misiones dominadas de este navegador. Se generarán siete retos nuevos.</p><button id="confirmReset">REINICIAR PROGRESO</button><button class="secondary" id="modalClose">SEGUIR JUGANDO</button>';
+  $('modal').innerHTML=html;
+  if($('modalClose'))$('modalClose').addEventListener('click',closeModal);
+  if($('confirmReset'))$('confirmReset').addEventListener('click',()=>{if(classroom.role!=='admin')return;state.score=0;state.streak=0;state.completed=Array(7).fill(false);state.campaignShown=false;state.challenges=Array(7).fill(null);for(let i=0;i<7;i++)newChallenge(i,false);state.index=0;saveProgress();closeModal();renderMission();});
+  $('modal').focus();
+}
+function closeModal(){$('modalBackdrop').hidden=true;if(state.modalFocus&&state.modalFocus.isConnected)state.modalFocus.focus();}
+function resize(){
+  const rect=$('scene').getBoundingClientRect();W=rect.width;H=rect.height;DPR=Math.min(window.devicePixelRatio||1,2);canvas.width=Math.round(W*DPR);canvas.height=Math.round(H*DPR);ctx.setTransform(DPR,0,0,DPR,0,0);
+}
+function emit(x,y,count,color,power=1){
+  if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)count=Math.ceil(count*.18);
+  for(let j=0;j<count;j++){const a=Math.random()*Math.PI*2,s=(30+Math.random()*75)*power;state.particles.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:.5+Math.random()*1.15,max:1.6,color,size:1+Math.random()*2});}
+  if(state.particles.length>320)state.particles.splice(0,state.particles.length-320);
+}
+function line(x1,y1,x2,y2,color,width=1){ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.strokeStyle=color;ctx.lineWidth=width;ctx.stroke();}
+function poly(points,color,width=2,fill=null){ctx.beginPath();points.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));if(fill){ctx.closePath();ctx.fillStyle=fill;ctx.fill();}ctx.strokeStyle=color;ctx.lineWidth=width;ctx.stroke();}
+function textOn(text,x,y,color='#8ab5c9',size=10,align='left'){ctx.fillStyle=color;ctx.font='500 '+size+'px ui-monospace,Consolas,monospace';ctx.textAlign=align;ctx.fillText(text,x,y);ctx.textAlign='left';}
+function glowCircle(x,y,r,color,width=2){
+  ctx.save();ctx.strokeStyle=color;ctx.lineWidth=width;ctx.shadowColor=color;ctx.shadowBlur=15;ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.stroke();ctx.restore();
+}
+function capsule(x,y,angle=0,accent=COLORS.cyan,scale=1){
+  const z=clamp(W/700,.65,1.3)*scale;ctx.save();ctx.translate(x,y);ctx.rotate(angle);ctx.scale(z,z);ctx.shadowColor=accent;ctx.shadowBlur=12;
+  const grad=ctx.createLinearGradient(-20,-10,20,10);grad.addColorStop(0,'#839ba9');grad.addColorStop(.45,'#d6edf2');grad.addColorStop(1,'#335264');
+  ctx.beginPath();ctx.moveTo(-20,-8);ctx.lineTo(10,-10);ctx.quadraticCurveTo(25,-8,25,0);ctx.quadraticCurveTo(25,8,10,10);ctx.lineTo(-20,8);ctx.closePath();ctx.fillStyle=grad;ctx.fill();ctx.strokeStyle=accent;ctx.lineWidth=1.5;ctx.stroke();
+  ctx.shadowBlur=0;ctx.fillStyle='#092639';ctx.fillRect(4,-6,10,12);ctx.fillStyle=accent;ctx.fillRect(-14,-2,13,3);line(-22,-7,-26,-12,accent,2);line(-22,7,-26,12,accent,2);ctx.restore();
+}
+function portal(x,y,open=false,color=COLORS.pink,r=H*.105){
+  ctx.save();ctx.translate(x,y);const pulse=1+.045*Math.sin(state.tick*2.4),rx=r*.43;
+  const grad=ctx.createRadialGradient(0,0,0,0,0,r);grad.addColorStop(0,open?color+'78':'#0a142480');grad.addColorStop(.6,open?color+'18':'#13112630');grad.addColorStop(1,'#050a1700');ctx.fillStyle=grad;ctx.fillRect(-r,-r*1.35,r*2,r*2.7);
+  ctx.shadowBlur=open?23:10;ctx.shadowColor=color;ctx.strokeStyle=open?color:color+'66';ctx.lineWidth=open?3:2;ctx.beginPath();ctx.ellipse(0,0,rx*pulse,r*pulse,0,0,Math.PI*2);ctx.stroke();ctx.shadowBlur=0;
+  ctx.strokeStyle=color+'44';ctx.lineWidth=1;ctx.beginPath();ctx.ellipse(0,0,rx*1.24,r*1.17,0,0,Math.PI*2);ctx.stroke();
+  for(let j=0;j<8;j++){const a=j*Math.PI/4+state.tick*.35;ctx.fillStyle=open?color:'#527489';ctx.fillRect(Math.cos(a)*rx*1.23-2,Math.sin(a)*r*1.17-2,4,4);}
+  if(!open){line(-rx*.65,-r*.5,rx*.65,r*.5,color+'88',1);line(-rx*.65,r*.5,rx*.65,-r*.5,color+'88',1);}
+  ctx.restore();
+}
+function background(){
+  ctx.clearRect(0,0,W,H);
+  const g=ctx.createLinearGradient(0,0,W,H);g.addColorStop(0,'#0b1a2b');g.addColorStop(.48,'#0a1424');g.addColorStop(1,state.index<4?'#071a25':'#1a122c');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  const nebula=ctx.createRadialGradient(W*.7,H*.35,0,W*.7,H*.35,W*.42);nebula.addColorStop(0,state.index<4?'#14415035':'#4122564a');nebula.addColorStop(1,'#12233800');ctx.fillStyle=nebula;ctx.fillRect(0,0,W,H);
+  stars.forEach(s=>{ctx.fillStyle='rgba(134,190,218,'+(0.22+.35*(.5+.5*Math.sin(state.tick*.45+s.phase)))+')';ctx.beginPath();ctx.arc(s.x*W,s.y*H*.75,s.r,0,Math.PI*2);ctx.fill();});
+  const horizon=H*.63;for(let j=0;j<10;j++){const y=horizon+(H-horizon)*(j/9)**2;line(0,y,W,y,'#234b612c');}
+  for(let j=-8;j<=12;j++)line(W*.52,horizon,W*.52+j*W*.13,H,'#21495b33');
+  line(0,horizon,W,horizon,'#3b677024');
+  for(let j=0;j<3;j++){const x=W*(.06+j*.32);poly([[x,H*.1],[x+W*.08,H*.1],[x+W*.09,H*.12]],'#35536b44');}
+  textOn('ORBITAL SECTOR / '+String(state.index+1).padStart(2,'0'),W*.055,H*.125,'#456780',Math.max(8,W*.011));
+  textOn('MODEL: '+(state.index<4?'CLASSICAL':'EINSTEIN'),W*.93,H*.125,'#456780',Math.max(8,W*.011),'right');
+}
+function trackSupport(x1,y1,x2,y2){
+  line(x1,y1+7,x2,y2+7,'#1e4357',6);line(x1,y1,x2,y2,'#79abb8',3);line(x1,y1-2,x2,y2-2,COLORS.cyan+'66',1);
+  for(let j=0;j<5;j++){const u=j/4,x=x1+(x2-x1)*u,y=y1+(y2-y1)*u;line(x,y+10,x,H*.88,'#254b604c',1);line(x,H*.88,x+W*.025,H*.88,'#315367',2);}
+}
+function dimension(x1,y1,x2,y2,label,color=COLORS.blue){
+  ctx.save();ctx.setLineDash([3,4]);line(x1,y1,x2,y2,color+'77');ctx.setLineDash([]);line(x1-4,y1,x1+4,y1,color+'88');line(x2-4,y2,x2+4,y2,color+'88');textOn(label,x1+(x1<W*.15?8:-8),(y1+y2)/2,color,Math.max(9,W*.012),x1<W*.15?'left':'right');ctx.restore();
+}
+function drawRamp(s){
+  const c=current(),d=c.data,x0=W*.16,xb=W*.63,yb=H*.74,y0=yb-H*.5*Math.min(1,Math.sqrt(c.value/90)),xp=W*.90;
+  trackSupport(x0,y0,xb,yb);trackSupport(xb,yb,W*.95,yb);
+  dimension(W*.09,y0,W*.09,yb,'h = '+fmt(c.value)+' m');
+  portal(xp,yb-H*.055,c.solved,COLORS.pink,H*.12);
+  textOn('v OBJETIVO '+d.v+' m/s',W*.76,yb-H*.22,COLORS.orange,Math.max(9,W*.012),'center');
+  textOn('RAMPA SIN FRICCIÓN',W*.42,H*.83,'#537d91',Math.max(8,W*.011),'center');
+  let x=x0+(xb-x0)*s.q,y=y0+(yb-y0)*s.q-9,angle=Math.atan2(yb-y0,xb-x0);
+  if(s.flat>0||s.q>=1){x=xb+(xp-xb)*s.flat;y=yb-9;angle=0;}
+  if(c.solved){x=xp;y=yb-H*.055;angle=0;}
+  capsule(x,y,angle);
+  if(state.run)drawTrail(x,y,COLORS.cyan,s.speed/10);
+}
+function drawSpring(s){
+  const c=current(),d=c.data,k=config(),x=W*.40,ground=H*.80,top=H*.24,scale=(ground-top)/Math.max(d.h,k.height,1),platformY=ground-d.h*scale;
+  trackSupport(W*.12,ground,W*.88,ground);
+  ctx.fillStyle='#162b3e';ctx.fillRect(x-W*.052,ground-H*.06,W*.105,H*.07);ctx.strokeStyle='#438290';ctx.strokeRect(x-W*.052,ground-H*.06,W*.105,H*.07);
+  const idle=!state.run&&!c.feedback,coilHeight=idle?clamp(H*.15-c.value*H*.012,H*.04,H*.14):H*.13;
+  const pts=[[x,ground-H*.03]];for(let j=0;j<13;j++)pts.push([x+(j%2?W*.023:-W*.023),ground-H*.03-j*coilHeight/12]);poly(pts,COLORS.orange,2);
+  const xp=x-W*.06,wp=W*.34;ctx.fillStyle='#1b3c48';ctx.fillRect(xp,platformY,wp,9);line(xp,platformY,xp+wp,platformY,COLORS.cyan,3);line(xp+wp,platformY,xp+wp,H*.87,'#42667b',2);
+  dimension(W*.23,platformY,W*.23,ground,'h = '+d.h+' m');
+  textOn('PLATAFORMA DE CAPTURA',xp+wp*.55,platformY-17,COLORS.cyan,Math.max(8,W*.011),'center');
+  const capsuleY=idle?ground-coilHeight-H*.055:ground-s.height*scale-10;
+  capsule(x,capsuleY,-Math.PI/2,COLORS.cyan);
+  textOn('k = '+d.k+' N/m',W*.72,H*.75,COLORS.orange,Math.max(9,W*.013),'center');
+  textOn('x = '+fmt(c.value)+' m',x,H*.92,COLORS.orange,Math.max(9,W*.013),'center');
+  if(state.run)drawTrail(x,capsuleY,COLORS.orange,2,true);
+}
+function drawFriction(s){
+  const c=current(),d=c.data,x0=W*.15,y0=H*.28,xb=W*.53,yb=H*.74,xe=W*.87;
+  trackSupport(x0,y0,xb,yb);trackSupport(xb,yb,W*.95,yb);
+  ctx.fillStyle='#5b402830';ctx.fillRect(xb,yb-5,xe-xb,16);
+  const zig=[];for(let j=0;j<=36;j++)zig.push([xb+j*(xe-xb)/36,yb+(j%2?-4:1)]);poly(zig,COLORS.orange,2);
+  line(xb,H*.85,xe,H*.85,COLORS.orange+'77');line(xb,H*.835,xb,H*.865,COLORS.orange+'aa');line(xe,H*.835,xe,H*.865,COLORS.orange+'aa');textOn('TRAMO RUGOSO / 10 m',(xb+xe)/2,H*.89,COLORS.orange,Math.max(8,W*.012),'center');
+  portal(W*.91,yb-H*.05,c.solved,COLORS.blue,H*.10);
+  textOn('SALIDA '+fmt(d.final)+' J',W*.84,H*.50,COLORS.blue,Math.max(9,W*.012),'center');
+  let x=x0+(xb-x0)*s.q,y=y0+(yb-y0)*s.q-9,angle=Math.atan2(yb-y0,xb-x0);
+  if(s.rough){x=xb+(xe-xb)*(s.distance/d.d);y=yb-9;angle=0;}
+  capsule(x,y,angle);
+  if(state.run&&s.rough&&c.value>0&&s.speed>.01&&state.tick-state.run.lastSpark>.08){emit(x,y+7,4,COLORS.orange,.6);state.run.lastSpark=state.tick;}
+  if(s.rough&&c.value>0){line(x-10,y-22,x-W*.08,y-22,COLORS.red,2);poly([[x-W*.08+6,y-27],[x-W*.08,y-22],[x-W*.08+6,y-17]],COLORS.red,2);textOn('fᵣ',x-W*.045,y-32,COLORS.red,10,'center');}
+}
+function drawLift(s){
+  const c=current(),d=c.data,x=W*.52,base=H*.80,top=H*.24,y=base-(base-top)*s.q,rail1=x-W*.11,rail2=x+W*.11;
+  ctx.fillStyle='#142639';ctx.fillRect(rail1,top-14,rail2-rail1,base-top+30);ctx.strokeStyle='#416374';ctx.strokeRect(rail1,top-14,rail2-rail1,base-top+30);
+  for(let j=0;j<8;j++)line(rail1+5,top+j*(base-top)/7,rail2-5,top+j*(base-top)/7,'#355066',1);
+  line(x,top-20,x,y-H*.065,'#b5c7d3',2);
+  ctx.save();ctx.translate(x,y-H*.045);ctx.fillStyle='#253e4d';ctx.strokeStyle=COLORS.orange;ctx.lineWidth=2;ctx.fillRect(-W*.07,-H*.055,W*.14,H*.10);ctx.strokeRect(-W*.07,-H*.055,W*.14,H*.10);ctx.fillStyle=COLORS.orange;ctx.fillRect(-W*.058,-H*.042,W*.116*s.q,H*.013);textOn('BATTERY',0,H*.004,COLORS.orange,Math.max(8,W*.012),'center');ctx.restore();
+  dimension(W*.30,top,W*.30,base,'h = '+d.h+' m');
+  const remaining=s.remaining===undefined?d.t:s.remaining,timerColor=remaining<d.t*.25?COLORS.red:COLORS.cyan;
+  glowCircle(W*.82,H*.43,H*.12,timerColor,2);
+  textOn(fmt(remaining,1)+' s',W*.82,H*.43+5,timerColor,Math.max(17,W*.028),'center');textOn('ANTES DEL COLAPSO',W*.82,H*.62,'#638298',Math.max(8,W*.011),'center');
+  ctx.fillStyle='#142b36';ctx.fillRect(W*.40,base+14,W*.24,H*.06);textOn(fmt(c.value)+' W',x,base+H*.057,COLORS.cyan,Math.max(11,W*.018),'center');
+  textOn('MOTOR DE POTENCIA CONSTANTE',x,H*.93,'#547d92',Math.max(8,W*.011),'center');
+}
+function drawPhoto(s){
+  const c=current(),d=c.data,k=config(),x0=W*.19,y=H*.52,xm=W*.58;
+  ctx.fillStyle='#172d43';ctx.strokeStyle='#456f82';ctx.lineWidth=2;ctx.fillRect(x0-W*.075,y-H*.10,W*.15,H*.20);ctx.strokeRect(x0-W*.075,y-H*.10,W*.15,H*.20);
+  ctx.fillStyle=k.photon.color;ctx.fillRect(x0+W*.048,y-H*.045,W*.08,H*.09);
+  glowCircle(x0,y,H*.038,k.photon.color,2);textOn('LÁSER',x0,y+H*.16,'#a3becf',Math.max(9,W*.013),'center');
+  const metalH=H*.46;const grad=ctx.createLinearGradient(xm,0,xm+W*.06,0);grad.addColorStop(0,'#688696');grad.addColorStop(.4,'#253e51');grad.addColorStop(1,'#7c98a3');ctx.fillStyle=grad;ctx.fillRect(xm,y-metalH/2,W*.045,metalH);ctx.strokeStyle='#9eb9c6';ctx.strokeRect(xm,y-metalH/2,W*.045,metalH);
+  textOn('Φ = '+fmt(d.phi,1)+' eV',xm+W*.02,y-metalH/2-20,COLORS.orange,Math.max(10,W*.015),'center');
+  if(state.run||c.feedback){
+    if(c.value>0){
+      ctx.save();ctx.shadowColor=k.photon.color;ctx.shadowBlur=12+c.value*.12;ctx.strokeStyle=k.photon.color;ctx.lineWidth=1+c.value*.045;line(x0+W*.12,y,xm,y,k.photon.color,ctx.lineWidth);ctx.restore();
+      const count=Math.max(1,Math.round(c.value/12));
+      for(let j=0;j<count;j++){const u=(state.tick*1.6+j/count)%1;glowCircle(x0+W*.12+(xm-x0-W*.12)*u,y+Math.sin(j)*6,2.5,k.photon.color,1.5);}
+    }
+    if(s.emits){
+      const n=Math.max(1,Math.round(c.value/9));for(let j=0;j<n;j++){const u=(state.tick*(.45+k.kinetic*.22)+j/n)%1,xx=xm+W*.055+u*W*.27,yy=y+(j%2?1:-1)*u*H*.18;ctx.fillStyle=COLORS.cyan;ctx.shadowColor=COLORS.cyan;ctx.shadowBlur=8;ctx.beginPath();ctx.arc(xx,yy,2.8,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;line(xx-8,yy,xx,yy,COLORS.cyan+'66',1);}
+      textOn('e⁻ EMITIDOS',W*.82,H*.78,COLORS.cyan,Math.max(9,W*.013),'center');
+    }else{textOn(c.value===0?'SIN FOTONES':'SIN FOTOELECTRONES',W*.81,H*.74,COLORS.red,Math.max(8,W*.012),'center');}
+  }
+  portal(W*.89,y,c.solved,COLORS.pink,H*.11);
+  textOn(k.photon.name.toUpperCase(),x0,H*.25,k.photon.color,Math.max(9,W*.013),'center');
+  textOn('E꜀ OBJETIVO',W*.80,H*.22,COLORS.orange,Math.max(8,W*.011),'center');
+  textOn(fmt(d.target,1)+' eV',W*.80,H*.28,COLORS.orange,Math.max(10,W*.014),'center');
+  textOn('INTENSIDAD = CANTIDAD DE FOTONES',W*.48,H*.90,'#627f96',Math.max(8,W*.011),'center');
+}
+function reactorChamber(x,y,label,color,fill){
+  const r=H*.12;ctx.fillStyle='#14263a';ctx.strokeStyle='#466479';ctx.lineWidth=2;ctx.fillRect(x-W*.075,y-r,W*.15,r*2);ctx.strokeRect(x-W*.075,y-r,W*.15,r*2);
+  for(let j=0;j<5;j++)line(x-W*.09,y-r+j*r*.5,x-W*.075,y-r+j*r*.5,color+'77',2);
+  const g=ctx.createRadialGradient(x,y,0,x,y,r*.8);g.addColorStop(0,color+(fill>.1?'99':'44'));g.addColorStop(1,color+'00');ctx.fillStyle=g;ctx.fillRect(x-r,y-r,r*2,r*2);glowCircle(x,y,r*.33,color,2);
+  textOn(label,x,y+r+20,color,Math.max(8,W*.012),'center');
+}
+function drawReactor(s){
+  const c=current(),d=c.data,x=W*.39,y=H*.53,available=config().available;
+  reactorChamber(W*.19,H*.37,'MATERIA · m/2',COLORS.cyan,1-s.q);reactorChamber(W*.19,H*.69,'ANTIMATERIA · m/2',COLORS.pink,1-s.q);
+  poly([[W*.27,H*.37],[x,H*.37],[x,y]],COLORS.cyan+'88',2);poly([[W*.27,H*.69],[x,H*.69],[x,y]],COLORS.pink+'88',2);
+  glowCircle(x,y,H*.087,COLORS.orange,3);glowCircle(x,y,H*.11,COLORS.orange+'66',1);
+  textOn('E = mc²',x,y+H*.19,COLORS.orange,Math.max(10,W*.016),'center');
+  const portalX=W*.79,portalR=H*.20;portal(portalX,y,c.solved,COLORS.pink,portalR);
+  if(state.run||c.solved){
+    ctx.save();ctx.shadowColor=COLORS.orange;ctx.shadowBlur=13;line(x+H*.09,y,portalX-portalR*.45,y,COLORS.orange,2.5);ctx.restore();
+    for(let j=0;j<9;j++){const u=(state.tick*.8+j/9)%1;ctx.fillStyle=COLORS.orange;ctx.beginPath();ctx.arc(x+H*.09+(portalX-portalR*.45-x-H*.09)*u,y,2+Math.sin(u*Math.PI)*2,0,Math.PI*2);ctx.fill();}
+  }
+  textOn('AGUJERO DE GUSANO',portalX,H*.19,COLORS.pink,Math.max(9,W*.013),'center');textOn('OBJETIVO '+energyText(d.targetTJ),portalX,H*.84,COLORS.orange,Math.max(9,W*.013),'center');
+  textOn('m TOTAL = '+fmt(c.value,3)+' '+c.unit,W*.19,H*.17,'#a0c2d4',Math.max(9,W*.013),'center');
+  textOn('RESERVA '+energyText(available),x,H*.22,'#739bb0',Math.max(8,W*.012),'center');
+}
+function drawRelativity(s){
+  const c=current(),d=c.data,bx=W*.68,by=H*.48,r=H*.11,beta=s.beta||0;
+  ctx.save();
+  for(let j=0;j<12;j++){
+    ctx.beginPath();for(let step=0;step<=50;step++){const x=step*W/50,dx=(x-bx)/W,base=H*(.18+j*.053),dist=Math.sqrt(dx*dx+((base-by)/H)**2),bend=Math.exp(-dist*dist*12)*H*.11*Math.sin(j*.63+state.tick*.35)*(1+beta);const yy=base+bend;step?ctx.lineTo(x,yy):ctx.moveTo(x,yy);}ctx.strokeStyle='#8458b526';ctx.lineWidth=1;ctx.stroke();
+  }
+  const accretion=ctx.createRadialGradient(bx,by,r*.7,bx,by,r*2.5);accretion.addColorStop(0,'#03040c');accretion.addColorStop(.38,'#03040c');accretion.addColorStop(.47,'#f6c57499');accretion.addColorStop(.62,'#a967cd55');accretion.addColorStop(1,'#ae4dcb00');ctx.fillStyle=accretion;ctx.fillRect(bx-r*3,by-r*3,r*6,r*6);
+  ctx.save();ctx.translate(bx,by);ctx.rotate(-.21);ctx.strokeStyle=COLORS.orange+'bb';ctx.shadowColor=COLORS.orange;ctx.shadowBlur=18;ctx.lineWidth=3;ctx.beginPath();ctx.ellipse(0,0,r*2.2,r*.47,0,0,Math.PI*2);ctx.stroke();ctx.restore();
+  ctx.fillStyle='#03050d';ctx.beginPath();ctx.arc(bx,by,r,0,Math.PI*2);ctx.fill();glowCircle(bx,by,r,COLORS.pink+'aa',2);
+  for(let j=0;j<9;j++){const a=state.tick*.15+j*.7;ctx.fillStyle='#edcc9f88';ctx.beginPath();ctx.arc(bx+Math.cos(a)*r*1.26,by+Math.sin(a)*r*1.1,1.5,0,Math.PI*2);ctx.fill();}
+  const progress=s.q||0,x=W*.14+W*.40*progress,y=H*.71-Math.sin(progress*Math.PI*.8)*H*.10;
+  if(state.run&&beta>.01){for(let j=1;j<10;j++)line(x-W*.025*j,y+(j%3-1)*H*.012,x-W*.025*j-W*.018*beta,y+(j%3-1)*H*.012,COLORS.cyan+Math.floor(95/j).toString(16).padStart(2,'0'),1);}
+  ctx.save();ctx.translate(x,y);ctx.scale(Math.max(.38,1/(s.gamma||1)),1);capsule(0,0,-.12,COLORS.cyan);ctx.restore();
+  portal(W*.91,H*.69,c.solved,COLORS.cyan,H*.095);
+  textOn('OBJETIVO v = '+fmt(d.beta,1)+'c',W*.24,H*.23,COLORS.orange,Math.max(10,W*.014),'center');
+  textOn('γ = 1 / √(1 − β²)',W*.25,H*.32,COLORS.pink,Math.max(10,W*.014),'center');
+  textOn('ESPACIO-TIEMPO / VISUALIZACIÓN LOCAL',W*.53,H*.89,'#7d6e9e',Math.max(8,W*.011),'center');
+  textOn('v = '+fmt(beta,3)+'c',x,H*.80,COLORS.cyan,Math.max(10,W*.014),'center');
+  if(state.run||c.feedback)textOn('E꜀ REL > E꜀ NEWTON',bx,H*.20,COLORS.orange,Math.max(8,W*.012),'center');
+  ctx.restore();
+}
+function drawTrail(x,y,color,speed,vertical=false){
+  ctx.save();ctx.globalAlpha=.35;for(let j=0;j<5;j++){const offset=(j+1)*5;if(vertical)line(x,y+offset,x,y+offset+4+speed,color,1);else line(x-offset,y,x-offset-4-speed,y,color,1);}ctx.restore();
+}
+function drawParticles(dt){
+  state.particles=state.particles.filter(p=>p.life>0);
+  state.particles.forEach(p=>{p.life-=dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=45*dt;ctx.globalAlpha=clamp(p.life/p.max,0,1);ctx.fillStyle=p.color;ctx.fillRect(p.x,p.y,p.size,p.size);});ctx.globalAlpha=1;
+}
+function drawStatus(){
+  const c=current();if(!c.feedback)return;
+  const color=c.solved?COLORS.cyan:COLORS.red,label=c.solved?(c.feedback.critical?'CÁLCULO CRÍTICO ×3':'OBJETIVO ALCANZADO'):'RECALIBRAR SISTEMA';
+  ctx.fillStyle=color+'0d';ctx.fillRect(0,0,W,H);textOn(label,W*.5,H*.17,color,Math.max(10,W*.017),'center');
+}
+function frame(timestamp){
+  const dt=state.last?Math.min((timestamp-state.last)/1000,.05):0;state.last=timestamp;state.tick+=dt;
+  let s=current().finalSample||sampleIdle();
+  if(state.run){
+    if(!state.run.paused&&!document.hidden&&$('modalBackdrop').hidden)state.run.elapsed=Math.min(state.run.visualDuration,state.run.elapsed+dt*state.speed);
+    s=sampleRun(state.run);
+    if(timestamp-state.paintTime>55){updateEnergy(s);state.paintTime=timestamp;}
+  }
+  background();
+  [drawRamp,drawSpring,drawFriction,drawLift,drawPhoto,drawReactor,drawRelativity][state.index](s);
+  drawParticles(dt);drawStatus();
+  if(state.run&&state.run.elapsed>=state.run.visualDuration)completeRun();
+  requestAnimationFrame(frame);
+}
+
+function getRoster(){return online.user?{[online.user.id]:{display:online.user.name,grade:online.user.grade,section:online.user.section}}:{};}
+function getSettings(){return online.progress?.schedule||{};}
+function classroomMsg(t){$('gateMessage').textContent=t;}
+function scheduleAllowsEntry(){return true;}
+function enterClass(id,role){
+ classroom.id=id;classroom.role=role;classroom.attempts=[0,0,0];classroom.started=[null,null,null];
+ state.score=0;state.streak=0;state.index=0;state.completed=Array(7).fill(false);state.challenges=Array(7).fill(null);
+ state.campaignShown=false;state.run=null;loadProgress();for(let i=0;i<7;i++)if(!state.challenges[i]||!state.challenges[i].data)newChallenge(i,true);
+ $('classroomGate').hidden=true;$('gameMain').hidden=false;
+ $('classAdmin').hidden=role!=='admin';
+ $('classroomWho').textContent=role==='admin'?'DOCENTE · MODO DE PRUEBAS':'ESTUDIANTE · '+(getRoster()[id]?.display||id);
+ const settings=getSettings();$('classStart').value=settings.start||'';$('classEnd').value=settings.end||'';
+ renderMission();resize();refreshClassroom();
+}
+function exitClass(){
+ if(state.run){classroomMsg('Termina la simulación antes de salir.');return;}
+ saveProgress();classroom.id=null;classroom.role=null;$('gameMain').hidden=true;$('classroomGate').hidden=false;
+ $('gateMessage').textContent='Sesión cerrada. Abre Mi cuenta para volver a entrar.';
+}
+function refreshClassroom(){
+ if(!classroom.id)return;
+ const j=capacityIndex(),left=capacityRemaining(),expired=capacityExpired(),started=classroom.started[j];
+ const deadline=started?new Date(started+45*60000).toLocaleString('es-PE'):null;
+ $('classGrades').innerHTML=classroom.names.map((name,i)=>'<span>'+name+': <b>'+gradeFor(i).toFixed(2)+'/20</b> · '+(classroom.role==='admin'?'prueba':(3-classroom.attempts[i])+' intento(s) restantes')+'</span>').join('');
+ $('classStatus').textContent='Competencia actual: '+classroom.names[j]+(deadline?' · límite '+deadline:' · 45 min desde el primer intento')+(expired?' · TIEMPO AGOTADO':left===0?' · SIN MÁS INTENTOS':'')+' · progreso protegido en el servidor.';
+ $('classStatus').classList.toggle('classroom-lock',expired||left===0);
+}
+function csvEsc(x){return '"'+String(x??'').replace(/"/g,'""')+'"';}
+function exportScores(){location.href='/api/admin/grades.csv';}
+async function setupClassroom(){
+ $('classLogout').addEventListener('click',async()=>{try{await api('/api/logout','POST',{});location.href='/cuenta/';}catch(e){classroomMsg(e.message);}});
+ $('classPrev').addEventListener('click',()=>switchMission((state.index+6)%7));
+ $('classNext').addEventListener('click',()=>switchMission((state.index+1)%7));
+ $('classCsv').addEventListener('click',()=>{if(classroom.role==='admin')exportScores();});
+ $('classSaveSchedule').addEventListener('click',async()=>{if(classroom.role!=='admin')return;try{await api('/api/admin/schedule','PUT',{start:$('classStart').value?new Date($('classStart').value).toISOString():null,end:$('classEnd').value?new Date($('classEnd').value).toISOString():null});online.progress=await api('/api/game/progress');refreshClassroom();$('classStatus').textContent='Cronograma guardado en el servidor.';}catch(e){$('classStatus').textContent=e.message;}});
+ $('classResetStudent').addEventListener('click',()=>{if(classroom.role!=='admin')return;state.score=0;state.completed=Array(7).fill(false);for(let i=0;i<7;i++)newChallenge(i,true);});
+ try{const session=await api('/api/me');online.csrf=session.csrf;online.user=session.user;online.progress=await api('/api/game/progress');enterClass(session.user.id,session.user.role);await Promise.all(Array.from({length:7},(_,i)=>serverChallenge(i)));online.ready=true;loadProgress();renderMission();refreshClassroom();}
+ catch(e){classroomMsg(e.message+' · Inicia sesión desde Mi cuenta.');}
+ setInterval(async()=>{if(!classroom.id||state.run||online.busy)return;try{online.progress=await api('/api/game/progress');loadProgress();refreshClassroom();updateControls();}catch(e){$('classStatus').textContent=e.message;}},15000);
+}
+$('launchForm').addEventListener('submit',e=>{e.preventDefault();launch();});
+$('paramSlider').addEventListener('input',e=>{delete current().finalSample;setValue(e.target.value,true);});
+$('paramNumber').addEventListener('input',e=>{delete current().finalSample;setValue(e.target.value);});
+$('calculation').addEventListener('input',e=>{current().calc=e.target.value;$('fieldError').textContent='';});
+$('generateBtn').addEventListener('click',()=>{if(state.run||isCapacityLocked())return;newChallenge(state.index,false);saveProgress();renderMission();sound('tick');if(window.innerWidth<=820)$('launchForm').scrollIntoView({behavior:'smooth',block:'start'});});
+$('massUnits').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{const c=current();if(state.run||c.solved||!c.lives||isCapacityLocked()||b.dataset.unit===c.unit)return;c.value=round(c.value*(b.dataset.unit==='mg'?1000:.001),6);c.unit=b.dataset.unit;c.calc='';delete c.finalSample;renderMission();}));
+document.querySelectorAll('[data-speed]').forEach(b=>b.addEventListener('click',()=>{state.speed=Number(b.dataset.speed);document.querySelectorAll('[data-speed]').forEach(x=>{x.classList.toggle('active',x===b);x.setAttribute('aria-pressed',String(x===b));});}));
+$('pauseBtn').addEventListener('click',()=>{if(state.run){state.run.paused=!state.run.paused;updateControls();}});
+$('helpBtn').addEventListener('click',()=>showModal('help'));
+$('resetBtn').addEventListener('click',()=>{if(!state.run)showModal('reset');});
+$('soundBtn').addEventListener('click',()=>{state.sound=!state.sound;$('soundBtn').textContent=state.sound?'SONIDO ON':'SONIDO OFF';$('soundBtn').setAttribute('aria-pressed',String(state.sound));sound('tick');});
+$('downloadBtn').addEventListener('click',()=>{
+  const html='<!doctype html>\n'+document.documentElement.outerHTML,blob=new Blob([html],{type:'text/html;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='OVERDRIVE_DE_NEWTON_A_EINSTEIN.html';a.click();setTimeout(()=>URL.revokeObjectURL(url),2000);
+});
+$('modalBackdrop').addEventListener('click',e=>{if(e.target===$('modalBackdrop'))closeModal();});
+document.addEventListener('keydown',e=>{
+  if($('modalBackdrop').hidden)return;
+  if(e.key==='Escape'){e.preventDefault();closeModal();}
+  if(e.key==='Tab'){
+    const focusables=[...$('modal').querySelectorAll('button,a,input,[tabindex="0"]')],first=focusables[0],last=focusables[focusables.length-1];
+    if(e.shiftKey&&(document.activeElement===first||document.activeElement===$('modal'))){e.preventDefault();last.focus();}
+    else if(!e.shiftKey&&(document.activeElement===last||document.activeElement===$('modal'))){e.preventDefault();first.focus();}
+  }
+});
+window.addEventListener('resize',resize);
+if(typeof ResizeObserver!=='undefined')new ResizeObserver(resize).observe($('scene'));
+for(let i=0;i<7;i++)newChallenge(i,true);renderNav();renderMission();setupClassroom();resize();requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

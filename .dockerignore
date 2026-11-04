@@ -1,5 +1,9 @@
-node_modules
 .git
+node_modules
+.env
+.env.*
+*.test.js
+test
+android
 *.zip
-.DS_Store
-coverage
+books-source
